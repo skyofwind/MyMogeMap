@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_corner"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:background="@drawable/dialog_corner_top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="出生日期"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6px"
+        android:background="@color/line_gray" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip">
+
+            <FrameLayout
+                android:layout_width="110dip"
+                android:layout_height="wrap_content">
+
+                <com.example.dzj.mogemap.dialog.picker.LoopView
+                    android:id="@+id/loop_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="40dip"
+                    android:text="@string/timepicker_year"
+                    android:textColor="#B3B3B3" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.example.dzj.mogemap.dialog.picker.LoopView
+                    android:id="@+id/loop_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="40dip"
+                    android:text="@string/timepicker_month"
+                    android:textColor="#B3B3B3" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="110dip"
+                android:layout_height="wrap_content">
+
+                <com.example.dzj.mogemap.dialog.picker.LoopView
+                    android:id="@+id/loop_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="15dip"
+                    android:text="@string/timepicker_day"
+                    android:textColor="#B3B3B3" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="15dip"
+            android:background="#A5A5A5" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="15dip"
+            android:background="#A5A5A5" />
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#E2E2E2" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/dialog_corner_bottom"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        >
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:text="@string/cancel"
+            android:textColor="@color/text_choose"
+            android:background="@drawable/button_corner"/>
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:text="@string/submit"
+            android:textColor="@color/text_choose"
+            android:background="@drawable/button_corner"/>
+    </LinearLayout>
+</LinearLayout>

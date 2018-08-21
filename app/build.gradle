@@ -1,0 +1,127 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
+repositories {
+    flatDir {
+        dir 'libs'
+    }
+}
+android {
+    compileSdkVersion 25
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId "com.example.dzj.mogemap"
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    android.applicationVariants.all {
+        variant -> variant.outputs.all {
+            outputFileName = "MogeMap-${variant.versionName}.apk"
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    aaptOptions {
+
+        cruncherEnabled = false
+
+        useNewCruncher = false
+
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        androidTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+}
+MobSDK {
+    appKey "2448bfac7b672"
+    appSecret "1eebba8901a4982d4b170a5e8dc9cd1f"
+
+    SMSSDK {}
+    ShareSDK {
+        //平台配置信息
+        devInfo {
+            SinaWeibo {
+                appKey "1377089895"
+                appSecret "fd77d8d12b2a3ea5bd9b132da2650713"
+                callbackUri "http://www.sharesdk.cn"
+                shareByAppClient true
+                enable true
+            }
+            Wechat {
+                appId "wx4868b35061f87885"
+                appSecret "64020361b8ec4c99936c0e3999a9f249"
+                bypassApproval true
+                enable true
+            }
+            WechatMoments {
+                appId "wx4868b35061f87885"
+                appSecret "64020361b8ec4c99936c0e3999a9f249"
+                bypassApproval true
+                enable true
+            }
+            QQ {
+                appId "1106663555"
+                appKey "1bXMTT53abDHtE7d"
+                enable true
+            }
+            QZone {
+                appId "1106663555"
+                appKey "1bXMTT53abDHtE7d"
+                enable true
+            }
+        }
+    }
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.android.support:appcompat-v7:25.3.1'
+    implementation 'com.android.support:cardview-v7:25.3.1'
+    implementation 'com.android.support:recyclerview-v7:25.3.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.google.code.gson:gson:2.3.1'
+    implementation 'com.sina.weibo.sdk:core:4.2.7:openDefaultRelease@aar'
+    implementation 'com.alibaba:fastjson:1.1.56.android'
+    implementation 'com.zhy:okhttputils:2.6.2'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
+    implementation 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
+
+}
