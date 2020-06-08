@@ -10,8 +10,8 @@ import com.baidu.mapapi.SDKInitializer;
 import com.example.dzj.mogemap.utils.BuglyUtil;
 import com.example.dzj.mogemap.utils.Config;
 import com.mob.MobSDK;
-import com.sina.weibo.sdk.WbSdk;
-import com.sina.weibo.sdk.auth.AuthInfo;
+/*import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AuthInfo;*/
 import com.tencent.bugly.crashreport.CrashReport;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
@@ -28,7 +28,7 @@ import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
     protected Vibrator mVibrator;
-    public static AuthInfo mAuthInfo;
+   // public static AuthInfo mAuthInfo;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -45,9 +45,9 @@ public class MyApplication extends Application {
         MobSDK.init(this);
     }
     private void initSinaLogin() {
-        mAuthInfo = new AuthInfo(this, Config.APP_KEY_SINA, Config.REDIRECT_URL,
+        /*mAuthInfo = new AuthInfo(this, Config.APP_KEY_SINA, Config.REDIRECT_URL,
                 Config.SCOPE);
-        WbSdk.install(this, mAuthInfo);
+        WbSdk.install(this, mAuthInfo);*/
     }
     private void initTest() {
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);

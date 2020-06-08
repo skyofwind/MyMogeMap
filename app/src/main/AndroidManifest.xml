@@ -32,7 +32,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:hardwareAccelerated="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:name">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="azKopUjGGnp7dq1CAtm6pBz7EG2ZAbAn" />

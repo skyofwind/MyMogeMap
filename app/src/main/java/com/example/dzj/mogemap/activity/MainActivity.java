@@ -3,12 +3,11 @@ package com.example.dzj.mogemap.activity;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,12 +25,11 @@ import com.example.dzj.mogemap.utils.BitmapUtil;
 import com.example.dzj.mogemap.utils.Config;
 import com.example.dzj.mogemap.utils.HttpUtil;
 import com.example.dzj.mogemap.utils.MyPrefs;
-import com.example.dzj.mogemap.utils.RetrofitUtils;
 import com.example.dzj.mogemap.utils.SystemUtils;
 import com.example.dzj.mogemap.utils.UserManager;
 import com.example.dzj.mogemap.weather.recylerview.hRecyclerViewAdapter;
-import com.sina.weibo.sdk.auth.AccessTokenKeeper;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+//import com.sina.weibo.sdk.auth.AccessTokenKeeper;
+//import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.tencent.tauth.Tencent;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -55,7 +53,7 @@ public class MainActivity extends BaseActivty implements View.OnClickListener, V
     //android6.0需要使用的权限声明
 
     public static Tencent mTencent ;
-    public static Oauth2AccessToken mAccessToken;
+    //public static Oauth2AccessToken mAccessToken;
     public static String edit_text=null;
 
 
@@ -92,7 +90,7 @@ public class MainActivity extends BaseActivty implements View.OnClickListener, V
         super.onDestroy();
         MyPrefs.getInstance().onDestory();
         mTencent = null;
-        mAccessToken = null;
+        //mAccessToken = null;
     }
     private void init(){
         viewpager = (ViewPager)findViewById(R.id.myviewpager);
@@ -256,7 +254,7 @@ public class MainActivity extends BaseActivty implements View.OnClickListener, V
         }else if (MyPrefs.getInstance().readString(MyPrefs.SINA_UID, 1) != null &&
                 !MyPrefs.getInstance().readString(MyPrefs.SINA_UID, 1).equals("")) {
             String uid = MyPrefs.getInstance().readString(MyPrefs.SINA_UID, 1);
-            mAccessToken = AccessTokenKeeper.readAccessToken(this);
+            //mAccessToken = AccessTokenKeeper.readAccessToken(this);
             url = HttpUtil.GET_USER_BY_WEIBO_URL+"/"+uid;
             Log.d(TAG, "initLoginType: "+url);
             getUser(url);

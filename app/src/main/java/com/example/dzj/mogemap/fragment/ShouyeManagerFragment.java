@@ -8,7 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.example.dzj.mogemap.R;
 import com.example.dzj.mogemap.activity.AllRecordsActivity;
 import com.example.dzj.mogemap.activity.MainActivity;
@@ -25,15 +24,11 @@ import com.example.dzj.mogemap.activity.RunActivity;
 import com.example.dzj.mogemap.modle.Mogemap_run_record;
 import com.example.dzj.mogemap.modle.RunRecords;
 import com.example.dzj.mogemap.reciver.ShouyeBroadcastReciver;
-import com.example.dzj.mogemap.utils.HttpUtil;
 import com.example.dzj.mogemap.utils.OtherUtil;
 import com.example.dzj.mogemap.utils.RetrofitUtils;
 import com.example.dzj.mogemap.utils.UserManager;
 import com.example.dzj.mogemap.view.RainbowView;
 import com.example.dzj.mogemap.view.RunRecordView;
-import com.tencent.bugly.crashreport.CrashReport;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +37,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Call;
 
 /**
  * Created by dzj on 2017/12/14.

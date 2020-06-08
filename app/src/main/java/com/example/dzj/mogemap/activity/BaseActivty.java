@@ -5,7 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -93,6 +93,12 @@ public class BaseActivty extends AppCompatActivity{
             if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
                 permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
             }
+            if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if(checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.READ_PHONE_STATE);
+            }
             if (addPermission(permissions, Manifest.permission.RECEIVE_SMS)) {
                 permissionInfo += "Manifest.permission.RECEIVE_SMS Deny \n";
             }
@@ -100,13 +106,13 @@ public class BaseActivty extends AppCompatActivity{
                 permissionInfo += "Manifest.permission.SEND_SMS Deny \n";
             }
             // 读写权限
-            if (addPermission(permissions, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            /*if (addPermission(permissions, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 permissionInfo += "Manifest.permission.WRITE_EXTERNAL_STORAGE Deny \n";
-            }
+            }*/
             // 读取电话状态权限
-            if (addPermission(permissions, Manifest.permission.READ_PHONE_STATE)) {
+            /*if (addPermission(permissions, Manifest.permission.READ_PHONE_STATE)) {
                 permissionInfo += "Manifest.permission.READ_PHONE_STATE Deny \n";
-            }
+            }*/
 
             if (permissions.size() > 0) {
                 requestPermissions(permissions.toArray(new String[permissions.size()]), SDK_PERMISSION_REQUEST);

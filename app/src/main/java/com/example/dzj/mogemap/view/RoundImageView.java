@@ -16,11 +16,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.ImageView;
 
 import com.example.dzj.mogemap.R;
 
-public class RoundImageView extends android.support.v7.widget.AppCompatImageView {
+public class RoundImageView extends androidx.appcompat.widget.AppCompatImageView {
     /**
      * 圆形模式
      */

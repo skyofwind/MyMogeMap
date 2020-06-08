@@ -7,7 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,11 +34,11 @@ import com.example.dzj.mogemap.utils.HttpUtil;
 import com.example.dzj.mogemap.utils.MyPrefs;
 import com.example.dzj.mogemap.utils.UserManager;
 import com.example.dzj.mogemap.view.RoundImageView;
-import com.sina.weibo.sdk.auth.AccessTokenKeeper;
+/*import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WbAuthListener;
 import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;*/
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
@@ -70,9 +70,9 @@ public class MineManagerFragment extends Fragment {
     private String QQ_uid;//qq_openid
     private String scope = "all";
     //微博登录相关
-    private SsoHandler mSsoHandler;
+    //private SsoHandler mSsoHandler;
 
-    private WbAuthListener wbAuthListener = new SelfWbAuthListener();
+    //private WbAuthListener wbAuthListener = new SelfWbAuthListener();
     private BindAccoutBroadcastReciver bindReciver;
 
     private int loginType = 0;
@@ -243,7 +243,7 @@ public class MineManagerFragment extends Fragment {
             }
         }
     };
-    private class SelfWbAuthListener implements com.sina.weibo.sdk.auth.WbAuthListener{
+    /*private class SelfWbAuthListener implements com.sina.weibo.sdk.auth.WbAuthListener{
         @Override
         public void onSuccess(final Oauth2AccessToken token) {
             loginResult = 1;
@@ -271,7 +271,7 @@ public class MineManagerFragment extends Fragment {
             //Toast.makeText(WBAuthActivity.this, errorMessage.getErrorMessage(), Toast.LENGTH_LONG).show();
             loginResult = 0;
         }
-    }
+    }*/
     class BaseUiListener implements IUiListener {
 
         @Override
@@ -354,9 +354,9 @@ public class MineManagerFragment extends Fragment {
             Tencent.handleResultData(data, listener);
             log("wodecishu"+"回调");
         }
-        if (mSsoHandler != null) {
+        /*if (mSsoHandler != null) {
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+        }*/
         super.onActivityResult(requestCode, resultCode, data);
     }
     private void log(String s){
@@ -371,14 +371,14 @@ public class MineManagerFragment extends Fragment {
         }
     }
     private void loginSina(){
-        mSsoHandler = new SsoHandler(getActivity());
-        mSsoHandler.authorize(wbAuthListener);
+        /*mSsoHandler = new SsoHandler(getActivity());
+        mSsoHandler.authorize(wbAuthListener);*/
         //signIn();
     }
     private void logoutSina(){
-        AccessTokenKeeper.clear(getContext().getApplicationContext());
+       /* AccessTokenKeeper.clear(getContext().getApplicationContext());
         mSsoHandler = null;
-        MainActivity.mAccessToken = new Oauth2AccessToken();
+        MainActivity.mAccessToken = new Oauth2AccessToken();*/
         signOut();
         removeSinaAcount();
         UserManager.getInstance().setUser(new Mogemap_user());
@@ -451,7 +451,7 @@ public class MineManagerFragment extends Fragment {
         if (MyPrefs.getInstance().readString(MyPrefs.SINA_UID, 1) == null ||
                 MyPrefs.getInstance().readString(MyPrefs.SINA_UID, 1).equals("")) {
         } else {
-            if(MainActivity.mAccessToken.isSessionValid()){
+            /*if(MainActivity.mAccessToken.isSessionValid()){
                 loginType = 1;
                 setHAT();
                 //signIn();
@@ -460,7 +460,7 @@ public class MineManagerFragment extends Fragment {
                 //getWeiBoUserMessage(token, uid);
             }else {
                 logoutSina();
-            }
+            }*/
         }
     }
     private void getWeiBoUserMessage(String token, String uid){
@@ -540,8 +540,8 @@ public class MineManagerFragment extends Fragment {
                             signIn();
                             username.setText(user.getName());
                             setHeadImage(user.getHeadurl());
-                            saveSinaAcount(MainActivity.mAccessToken.getUid(), MainActivity.mAccessToken.getToken(), MainActivity.mAccessToken.getExpiresTime()+"");
-                            AccessTokenKeeper.writeAccessToken(getContext(), MainActivity.mAccessToken);
+                            //saveSinaAcount(MainActivity.mAccessToken.getUid(), MainActivity.mAccessToken.getToken(), MainActivity.mAccessToken.getExpiresTime()+"");
+                            //AccessTokenKeeper.writeAccessToken(getContext(), MainActivity.mAccessToken);
                         }else {
                             Intent intent = new Intent(getActivity(), BindPhoneActivity.class);
                             log("mydata="+myName+" "+myHead);
@@ -573,8 +573,8 @@ public class MineManagerFragment extends Fragment {
                     if(s.equals("qq")){
                         initOpenidAndToken(qqJson);
                     }else {
-                        saveSinaAcount(MainActivity.mAccessToken.getUid(), MainActivity.mAccessToken.getToken(), MainActivity.mAccessToken.getExpiresTime()+"");
-                        AccessTokenKeeper.writeAccessToken(getContext(), MainActivity.mAccessToken);
+                        /*saveSinaAcount(MainActivity.mAccessToken.getUid(), MainActivity.mAccessToken.getToken(), MainActivity.mAccessToken.getExpiresTime()+"");
+                        AccessTokenKeeper.writeAccessToken(getContext(), MainActivity.mAccessToken);*/
                     }
                 }
             });

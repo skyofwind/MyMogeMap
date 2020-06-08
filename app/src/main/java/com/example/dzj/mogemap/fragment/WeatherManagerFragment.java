@@ -10,10 +10,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -344,7 +345,7 @@ public class WeatherManagerFragment extends Fragment{
         //recyclerView=(RecyclerView)findViewById(R.id.id_recyclerview);
         mAdapter=new RecyclerViewAdapter(getContext(), DataDeal.mtime, DataDeal.mtmp, DataDeal.micon, DataDeal.mwind, DataDeal.mtxt, DataDeal.ntmp, ncity, DataDeal.height, DataDeal.naqi, DataDeal.ntrav, DataDeal.nflu, bgpic, DataDeal.bg_min, DataDeal.tcolor);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(mAdapter);
@@ -381,7 +382,7 @@ public class WeatherManagerFragment extends Fragment{
     //popupwindow相应函数
     public void initRecyclerview(){
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
         hRecyclerView.setLayoutManager(layoutManager);
         hRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL_LIST));
     }
