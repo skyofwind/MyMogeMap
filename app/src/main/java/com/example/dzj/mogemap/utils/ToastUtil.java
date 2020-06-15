@@ -8,7 +8,7 @@ import android.widget.Toast;
  */
 
 public class ToastUtil {
-    public static void tip(Context context, String s, int t){
+    public static void tip(Context context, String s, int t) {
         Toast.makeText(context, s, t).show();
     }
 }

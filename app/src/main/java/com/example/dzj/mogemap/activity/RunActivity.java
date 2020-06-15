@@ -1,5 +1,6 @@
 package com.example.dzj.mogemap.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -8,11 +9,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +28,6 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
@@ -40,6 +40,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.example.dzj.mogemap.MyApplication;
 import com.example.dzj.mogemap.R;
 import com.example.dzj.mogemap.dialog.picker.MovingTargetPickerDialog;
 import com.example.dzj.mogemap.fragment.ConfirmDialogFragment;
@@ -50,11 +51,17 @@ import com.example.dzj.mogemap.service.RunService;
 import com.example.dzj.mogemap.utils.CalConsumeUtil;
 import com.example.dzj.mogemap.utils.MapUtil;
 import com.example.dzj.mogemap.utils.RetrofitUtils;
+import com.example.dzj.mogemap.utils.RunRecordUtil;
 import com.example.dzj.mogemap.utils.StepDetection;
 import com.example.dzj.mogemap.utils.SystemUtils;
+import com.example.dzj.mogemap.utils.ThreadUtil;
+import com.example.dzj.mogemap.utils.ToastUtil;
 import com.example.dzj.mogemap.utils.UserManager;
 import com.example.dzj.mogemap.view.GpsStrengthView;
+import com.tencent.bugly.crashreport.BuglyLog;
+import com.tencent.bugly.crashreport.CrashReport;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,7 +69,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -113,14 +119,14 @@ public class RunActivity extends BaseActivty {
     private LatLng mLatLng;
 
     private static final Double MAX_DISTANCE = 22.00 * 2;//最大距离
-    private static final Double MIN_DISTANCE = 2.0;//最小距离
+    private static final Double MIN_DISTANCE = 1.0;//最小距离
     private double distance = 0;
 
     private MapUtil mapUtil;//地图绘制轨迹工具类
 
     private static int RECORD = 0;
     private int invalidTimes = 1;
-    private int scanSpan = 4 * 1000;
+    private int scanSpan = 2 * 1000;
 
     private int firstLoc = 0;//
     private boolean isStart = false, isEnd = false;
@@ -361,6 +367,7 @@ public class RunActivity extends BaseActivty {
     }
 
     private void tip(String s) {
+        Log.e("gps", s);
         //mtip.setText(s);
     }
 
@@ -380,7 +387,7 @@ public class RunActivity extends BaseActivty {
         mBaiduMap.setMyLocationEnabled(true);
         // 定位初始化
         //设置定位监听
-        mLocClient = new LocationClient(this);
+        mLocClient = new LocationClient(MyApplication.applicationContext);
         myListener = new MyLocationListenner();
         mLocClient.registerLocationListener(myListener);
         LocationClientOption option = new LocationClientOption();
@@ -406,7 +413,7 @@ public class RunActivity extends BaseActivty {
     }
 
     private boolean isMove() {
-        if (isGPS) {
+        //if (isGPS) {
             //判断手机是否静止,如果静止,判定采集点无效,直接抛弃
             if (!stepDetection.is_Acc && stepDetection.IsRun) {
                 stepDetection.IsRun = false;
@@ -414,10 +421,10 @@ public class RunActivity extends BaseActivty {
             }
             //抛弃初始三位数据
             if (firstLoc < 3) {
-                if (firstLoc < 3) {
-                    firstLoc++;
-                    mTrajectory.add(mLatLng);
-                }
+
+                firstLoc++;
+                mTrajectory.add(mLatLng);
+                log("firstLoc = " + firstLoc + " " + JSON.toJSONString(mLatLng));
                 //mTrajectory.add(mLatLng);
                 //mapUtil.drawStartPoint(mLatLng);
                 return false;
@@ -455,7 +462,7 @@ public class RunActivity extends BaseActivty {
                 }
 
             }
-        }
+        //}
         return false;
     }
 
@@ -485,7 +492,7 @@ public class RunActivity extends BaseActivty {
     }
 
     private void log(String s) {
-        Log.i(TAG, s);
+        Log.e(TAG, s);
     }
 
     private void setCurrentMode() {
@@ -860,13 +867,18 @@ public class RunActivity extends BaseActivty {
                 if (distance > 100) {
                     //getMyRunRecord(runTypeNum, getWeight(), distance, getSeconds(), mTrajectory);
                     String phone = UserManager.getInstance().getUser().getPhone();
-                    if (phone == null) {
+                    final Mogemap_run_record runRecord = getMyRunRecord(runTypeNum, getWeight(), distance, getSeconds(), mTrajectory);
+
+                    saveRecord(runRecord);
+                    /*if (phone == null) {
                         tip("用户未登录，运动数据无法上传但会保存至本地");
                         //RunActivity.this.finish();
+
+
                     } else {
-                        Mogemap_run_record run_record = getMyRunRecord(runTypeNum, getWeight(), distance, getSeconds(), mTrajectory);
-                        postRunRecord(run_record);
-                    }
+
+                        postRunRecord(runRecord);
+                    }*/
                 } else {
                     ConfirmDialogFragment confirmDialogFragment = new ConfirmDialogFragment();
                     confirmDialogFragment.show(getFragmentManager(), "android");
@@ -884,6 +896,13 @@ public class RunActivity extends BaseActivty {
                     confirmDialogFragment.setFinish(new ConfirmDialogFragment.OnDialogListener() {
                         @Override
                         public void onDialogClick() {
+                            /*ThreadUtil.Companion.getInstance().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    testSaveRecord();
+                                }
+                            });*/
+
                             RunActivity.this.finish();
                         }
                     });
@@ -1017,13 +1036,13 @@ public class RunActivity extends BaseActivty {
 
                 @Override
                 public void onError(Throwable e) {
-                    cancel();
+                    cancelDialog();
                     tip("上传失败");
                 }
 
                 @Override
                 public void onComplete() {
-                    cancel();
+                    cancelDialog();
                     tip("上传成功");
                     Intent intent = new Intent(RunActivity.this, RunRecordActivity.class);
                     intent.putExtra("id", runRecord.getId());
@@ -1106,6 +1125,58 @@ public class RunActivity extends BaseActivty {
                 progress.setProgress((int) value);
                 log("Myprogress=" + (int) value);
             }
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void saveRecord(final Mogemap_run_record runRecord) {
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                statrProgressDialog("正在保存记录到本地");
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                boolean result = true;
+                try {
+                    RunRecordUtil.saveInLocal(JSON.toJSONString(runRecord));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    CrashReport.postCatchedException(e);
+                    result = false;
+                }
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                super.onPostExecute(result);
+                cancelDialog();
+                if (!result) {
+                    BuglyLog.v("saveInLocal", "运动记录保存到本地失败");
+                    tip("运动记录保存到本地失败");
+                    ToastUtil.tip(RunActivity.this, "运动记录保存到本地失败", Toast.LENGTH_LONG);
+                } else {
+                    ToastUtil.tip(RunActivity.this, "运动记录保存成功", Toast.LENGTH_LONG);
+                }
+                RunActivity.this.finish();
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
+    }
+
+    public void testSaveRecord() {
+        try {
+            RunRecordUtil.saveInLocal("啦啦啦啦", "202006091501", "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            CrashReport.postCatchedException(e);
+            BuglyLog.v("saveInLocal", "运动记录保存到本地失败");
+            tip("运动记录保存到本地失败");
         }
     }
 }

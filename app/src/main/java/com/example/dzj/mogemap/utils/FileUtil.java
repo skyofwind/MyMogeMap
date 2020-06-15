@@ -20,11 +20,14 @@ import static android.R.attr.path;
 
 public class FileUtil {
     public static final String FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"
-            + "com.example.dzj.mogemap";
-    public static void judePackageDirExists(){
+        + "com.example.dzj.mogemap";
+    public static final String RUN_RECORD_PATH = FILE_PATH + "/" + "runrecord";
+
+    public static void judePackageDirExists() {
         File file = new File(FILE_PATH);
         judeDirExists(file);
     }
+
     public static void judeDirExists(File file) {
 
         if (file.exists()) {
@@ -38,6 +41,7 @@ public class FileUtil {
             file.mkdir();
         }
     }
+
     public static void saveImageToGallery(Context context, Bitmap bmp) {
         // 首先保存图片
         File appDir = new File(Environment.getExternalStorageDirectory(), "Boohee");
@@ -60,11 +64,13 @@ public class FileUtil {
         // 其次把文件插入到系统图库
         try {
             MediaStore.Images.Media.insertImage(context.getContentResolver(),
-                    file.getAbsolutePath(), fileName, null);
+                file.getAbsolutePath(), fileName, null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         // 最后通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
     }
+
+
 }

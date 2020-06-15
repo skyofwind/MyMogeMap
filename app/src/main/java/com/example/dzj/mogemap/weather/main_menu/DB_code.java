@@ -25,15 +25,18 @@ public class DB_code {
     public static final String DB_NAME2 = "city_code.db"; //保存的数据库文件名
     private SQLiteDatabase database;
     private Context context;
+
     public DB_code(Context context) {
         this.context = context;
     }
+
     public void openDatabase() {
         this.database = this.openDatabase(DB_PATH + "/" + DB_NAME2);
     }
+
     private SQLiteDatabase openDatabase(String dbfile) {
-        try{
-            if(!(new File(dbfile).exists())){
+        try {
+            if (!(new File(dbfile).exists())) {
                 InputStream is = this.context.getResources().openRawResource(R.raw.city_code); //欲导入的数据库
                 FileOutputStream fos = new FileOutputStream(dbfile);
                 byte[] buffer = new byte[BUFFER_SIZE];
@@ -44,20 +47,21 @@ public class DB_code {
                 fos.close();
                 is.close();
             }
-            SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbfile,null);
+            SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
             Log.i("Database", "创建成功 ");
             return db;
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             Log.i("Database", "File not found ");
             e.printStackTrace();
-        }catch (IOException e1){
+        } catch (IOException e1) {
             Log.i("Database", "IO exception");
             e1.printStackTrace();
         }
         return null;
     }
-    public Cursor Query(){
-        Cursor cursor=this.database.query("city_id_list",null,null,null,null,null,null);
+
+    public Cursor Query() {
+        Cursor cursor = this.database.query("city_id_list", null, null, null, null, null, null);
         return cursor;
     }
 

@@ -67,10 +67,12 @@ public class DataPickerDialog extends Dialog {
             this.context = context;
             params = new DataPickerDialog.Params();
         }
-        public Builder setMyWeight(String weight){
+
+        public Builder setMyWeight(String weight) {
             params.myWeight = weight;
             return this;
         }
+
         private final String getCurrDateValue() {
             return params.loopData.getCurrentItemValue();
         }
@@ -118,15 +120,15 @@ public class DataPickerDialog extends Dialog {
             final LoopView loopData = (LoopView) view.findViewById(R.id.loop_data);
             loopData.setArrayList(params.dataList);
             //loopData.setNotLoop();
-            if (params.dataList.size() > 0){
-                if(params.myWeight != null){
-                    for (int i = 0; i < params.dataList.size(); i++){
-                        if (params.myWeight.equals(params.dataList.get(i))){
+            if (params.dataList.size() > 0) {
+                if (params.myWeight != null) {
+                    for (int i = 0; i < params.dataList.size(); i++) {
+                        if (params.myWeight.equals(params.dataList.get(i))) {
                             loopData.setCurrentItem(i);
                             break;
                         }
                     }
-                }else {
+                } else {
                     loopData.setCurrentItem(params.initSelection);
                 }
             }
@@ -147,7 +149,7 @@ public class DataPickerDialog extends Dialog {
             Window win = dialog.getWindow();
             win.getDecorView().setPadding(0, 0, 0, 0);
             WindowManager.LayoutParams lp = win.getAttributes();
-            lp.width = SystemUtils.MAX_WIDTH-50;
+            lp.width = SystemUtils.MAX_WIDTH - 50;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             lp.y = 30;
             win.setAttributes(lp);

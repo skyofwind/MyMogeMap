@@ -18,7 +18,7 @@ public class LocationInfo implements Parcelable {
         Province = in.readString();
         City = in.readString();
         District = in.readString();
-        Status=in.readString();
+        Status = in.readString();
     }
 
     public static final Creator<LocationInfo> CREATOR = new Creator<LocationInfo>() {
@@ -65,7 +65,8 @@ public class LocationInfo implements Parcelable {
         Status = status;
     }
 
-    public LocationInfo(){}
+    public LocationInfo() {
+    }
 
     @Override
     public int describeContents() {
@@ -80,7 +81,7 @@ public class LocationInfo implements Parcelable {
         dest.writeString(Status);
     }
 
-    public String toString(){
-        return "province:"+Province+" city:"+City+" district"+District+" status:"+Status;
+    public String toString() {
+        return "province:" + Province + " city:" + City + " district" + District + " status:" + Status;
     }
 }

@@ -24,10 +24,12 @@ import java.util.List;
 public class RankingListViewAdapter extends BaseAdapter {
     private Context context;
     List<MogeUserItem> items;
-    public RankingListViewAdapter(Context context, List<MogeUserItem> items){
+
+    public RankingListViewAdapter(Context context, List<MogeUserItem> items) {
         this.context = context;
         this.items = items;
     }
+
     @Override
     public int getCount() {
         return items.size();
@@ -46,34 +48,36 @@ public class RankingListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if (convertView == null){
+        if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.ranking_item, null);
-            holder.count = (TextView)convertView.findViewById(R.id.count);
-            holder.number = (TextView)convertView.findViewById(R.id.number);
-            holder.name = (TextView)convertView.findViewById(R.id.name);
-            holder.icon = (RoundImageView)convertView.findViewById(R.id.icon);
+            holder.count = (TextView) convertView.findViewById(R.id.count);
+            holder.number = (TextView) convertView.findViewById(R.id.number);
+            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.icon = (RoundImageView) convertView.findViewById(R.id.icon);
             convertView.setTag(holder);
-        }else {
-            holder = (ViewHolder)convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-        holder.number.setText((position+1)+"");
+        holder.number.setText((position + 1) + "");
         holder.name.setText(items.get(position).getName());
-        holder.count.setText(OtherUtil.getKM(items.get(position).getDistance())+" 公里");
+        holder.count.setText(OtherUtil.getKM(items.get(position).getDistance()) + " 公里");
         setHeadImage(holder.icon, items.get(position).getHead());
         return convertView;
     }
-    static class ViewHolder{
+
+    static class ViewHolder {
         public RoundImageView icon;
         public TextView number, name, count;
     }
-    private void setHeadImage(final RoundImageView view, final String url){
+
+    private void setHeadImage(final RoundImageView view, final String url) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if(url != null){
+                if (url != null) {
                     final Bitmap bitmap = HttpUtil.getHttpBitmap(url);
-                    ((RankingActivity)context).runOnUiThread(new Runnable() {
+                    ((RankingActivity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.setImageBitmap(bitmap);

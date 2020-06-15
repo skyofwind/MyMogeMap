@@ -14,24 +14,51 @@ public class HEWeather5 {
     private Suggestion suggestion;
     private String status;
 
-    public Basic getBasic(){
+    public Basic getBasic() {
         return basic;
     }
-    public void setBasic(Basic basic){
-        this.basic=basic;
+
+    public void setBasic(Basic basic) {
+        this.basic = basic;
     }
-    public List<DailyForecast> getForecast(){
+
+    public List<DailyForecast> getForecast() {
         return daily_forecast;
     }
-    public void setForecast(List<DailyForecast> daily_forecast){
-        this.daily_forecast=daily_forecast;
+
+    public void setForecast(List<DailyForecast> daily_forecast) {
+        this.daily_forecast = daily_forecast;
     }
-    public Now getNow(){return now;}
-    public void setNow(Now now){this.now=now;}
-    public Aqi getAqi(){return aqi;}
-    public void setAqi(Aqi aqi){this.aqi=aqi;}
-    public Suggestion getSuggestion(){return suggestion;}
-    public void setSuggestion(Suggestion suggestion){this.suggestion=suggestion;}
-    public String getStatus(){return status;}
-    public void setStatus(String status){this.status=status;}
+
+    public Now getNow() {
+        return now;
+    }
+
+    public void setNow(Now now) {
+        this.now = now;
+    }
+
+    public Aqi getAqi() {
+        return aqi;
+    }
+
+    public void setAqi(Aqi aqi) {
+        this.aqi = aqi;
+    }
+
+    public Suggestion getSuggestion() {
+        return suggestion;
+    }
+
+    public void setSuggestion(Suggestion suggestion) {
+        this.suggestion = suggestion;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

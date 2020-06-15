@@ -22,26 +22,26 @@ public class RetrofitUtils extends MyHttpServices {
     private static RetrofitUtils instance;
     private Retrofit retrofit;
 
-    private RetrofitUtils(){
+    private RetrofitUtils() {
         initRetrofit();
         initOkhttp();
     }
 
-    public static RetrofitUtils getInstance(){
-        if(instance == null){
-            synchronized (RetrofitUtils.class){
+    public static RetrofitUtils getInstance() {
+        if (instance == null) {
+            synchronized (RetrofitUtils.class) {
                 instance = new RetrofitUtils();
             }
         }
         return instance;
     }
 
-    private void initRetrofit(){
+    private void initRetrofit() {
         retrofit = new Retrofit.Builder()
-                .baseUrl(HttpUtil.ROOT_URL)
-                .addConverterFactory(FastJsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+            .baseUrl(HttpUtil.ROOT_URL)
+            .addConverterFactory(FastJsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build();
     }
 
     private void initOkhttp() {
@@ -58,7 +58,7 @@ public class RetrofitUtils extends MyHttpServices {
 
     @Override
     public RecordsService getRecordsService() {
-        if(recordsService == null){
+        if (recordsService == null) {
             recordsService = retrofit.create(RecordsService.class);
         }
         return recordsService;
@@ -66,7 +66,7 @@ public class RetrofitUtils extends MyHttpServices {
 
     @Override
     public WeekRecordsService getWeekRecordsService() {
-        if(weekRecordsService == null){
+        if (weekRecordsService == null) {
             weekRecordsService = retrofit.create(WeekRecordsService.class);
         }
         return weekRecordsService;
@@ -74,7 +74,7 @@ public class RetrofitUtils extends MyHttpServices {
 
     @Override
     public MonthRecordsService getMonthRecordsService() {
-        if(monthRecordsService == null){
+        if (monthRecordsService == null) {
             monthRecordsService = retrofit.create(MonthRecordsService.class);
         }
         return monthRecordsService;
@@ -82,7 +82,7 @@ public class RetrofitUtils extends MyHttpServices {
 
     @Override
     public CheckPhoneService getCheckPhoneService() {
-        if(checkPhoneService == null){
+        if (checkPhoneService == null) {
             checkPhoneService = retrofit.create(CheckPhoneService.class);
         }
         return checkPhoneService;
@@ -90,7 +90,7 @@ public class RetrofitUtils extends MyHttpServices {
 
     @Override
     public AddUserService getAddUserService() {
-        if(addUserService == null){
+        if (addUserService == null) {
             addUserService = retrofit.create(AddUserService.class);
         }
         return addUserService;
@@ -98,7 +98,7 @@ public class RetrofitUtils extends MyHttpServices {
 
     @Override
     public RecordService getRecordService() {
-        if(recordService == null){
+        if (recordService == null) {
             recordService = retrofit.create(RecordService.class);
         }
         return recordService;
@@ -106,7 +106,7 @@ public class RetrofitUtils extends MyHttpServices {
 
     @Override
     public AddRecordService getAddRecordService() {
-        if(addRecordService == null){
+        if (addRecordService == null) {
             addRecordService = retrofit.create(AddRecordService.class);
         }
         return addRecordService;
@@ -114,7 +114,7 @@ public class RetrofitUtils extends MyHttpServices {
 
     @Override
     public UpdateUserService getUpdateUserService() {
-        if(updateUserService == null){
+        if (updateUserService == null) {
             updateUserService = retrofit.create(UpdateUserService.class);
         }
         return updateUserService;
@@ -122,7 +122,7 @@ public class RetrofitUtils extends MyHttpServices {
 
     @Override
     public GetLeaderBoardsService getGetLeaderBoardsService() {
-        if(getLeaderBoardsService == null){
+        if (getLeaderBoardsService == null) {
             getLeaderBoardsService = retrofit.create(GetLeaderBoardsService.class);
         }
         return getLeaderBoardsService;

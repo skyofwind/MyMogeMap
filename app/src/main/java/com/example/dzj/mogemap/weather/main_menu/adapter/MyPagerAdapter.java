@@ -1,6 +1,7 @@
 package com.example.dzj.mogemap.weather.main_menu.adapter;
 
 import androidx.viewpager.widget.PagerAdapter;
+
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,7 +23,7 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        if(viewList!=null){
+        if (viewList != null) {
             return viewList.size();
         }
         return 0;
@@ -30,35 +31,38 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view==object;
+        return view == object;
     }
 
     /**
      * 每次滑动pager的position
+     *
      * @param container
      * @param position
      * @return
      */
     @Override
     public Object instantiateItem(View container, int position) {
-        ((MyViewPager)container).addView(viewList.get(position),0);
+        ((MyViewPager) container).addView(viewList.get(position), 0);
         return viewList.get(position);
     }
 
     /**
-     *删除item
+     * 删除item
      * 当滑动到第三个item时，第一个item就会被destroy
+     *
      * @param container
      * @param position
      * @param object
      */
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        ((MyViewPager)container).removeView(viewList.get(position));
+        ((MyViewPager) container).removeView(viewList.get(position));
     }
 
     /**
      * pager的宽度
+     *
      * @param position
      * @return
      */

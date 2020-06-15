@@ -25,7 +25,7 @@ public class MenuUtil {
     //封装两个集合
     public static List<MenuData> city1, city2, city3, industry, position, major, stuMajor, practice_salary2, partTimeJob;
     public static HashMap<Integer, ArrayList<MenuData>> citys1, citys2, citys3, industrys, positions,
-            majors, stuMajors, practice_salary2s, partTimeJobs;
+        majors, stuMajors, practice_salary2s, partTimeJobs;
 
     //获取单个menu
     public static List<MenuData> getPositions(Context context, int flag, String fileName) {
@@ -43,17 +43,17 @@ public class MenuUtil {
     private static void initPositions(Context context, String fileName) {
         dbHelper = new DBmanager(context);
         dbHelper.openDatabase();
-        cursor=dbHelper.Query();
+        cursor = dbHelper.Query();
         //String industryString = readAssetsTXT(context, fileName);
         //String[] strings = industryString.split(";");//获得一行
         position = new ArrayList<MenuData>();
         positions = new HashMap<Integer, ArrayList<MenuData>>();
-        if(cursor.moveToFirst()){
-            for(int i=0;i<3260;i++){
+        if (cursor.moveToFirst()) {
+            for (int i = 0; i < 3260; i++) {
                 MenuData menuData = new MenuData();
-                menuData.id =cursor.getInt(cursor.getColumnIndex("districtid")) ;
-                menuData.name =cursor.getString(cursor.getColumnIndex("districtname")) ;
-                menuData.flag =cursor.getInt(cursor.getColumnIndex("parentid")) ;
+                menuData.id = cursor.getInt(cursor.getColumnIndex("districtid"));
+                menuData.name = cursor.getString(cursor.getColumnIndex("districtname"));
+                menuData.flag = cursor.getInt(cursor.getColumnIndex("parentid"));
                 if (menuData.flag == 1) {
                     position.add(menuData);//将数据添加到list里面
                 } else {

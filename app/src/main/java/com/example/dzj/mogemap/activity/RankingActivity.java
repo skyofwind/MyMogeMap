@@ -9,25 +9,17 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.example.dzj.mogemap.R;
 import com.example.dzj.mogemap.adapter.RankingListViewAdapter;
 import com.example.dzj.mogemap.modle.MogeLeaderboards;
-import com.example.dzj.mogemap.rxjava.common.RecordsService;
 import com.example.dzj.mogemap.utils.RetrofitUtils;
 import com.example.dzj.mogemap.utils.ToastUtil;
 import com.example.dzj.mogemap.utils.UserManager;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Call;
-
-import static com.example.dzj.mogemap.utils.HttpUtil.GET_LEADERBOARDS;
 
 /**
  * Created by dzj on 2018/3/5.
@@ -48,10 +40,11 @@ public class RankingActivity extends BaseActivty {
         initView();
         getData(UserManager.getInstance().getUser().getPhone(), 0);
     }
-    private Handler handler = new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
-        public void handleMessage(Message m ){
-            switch (m.what){
+        public void handleMessage(Message m) {
+            switch (m.what) {
                 case 0x01:
                     updateAdapter();
                     break;
@@ -59,12 +52,13 @@ public class RankingActivity extends BaseActivty {
                     statrProgressDialog();
                     break;
                 case 0x03:
-                    cancel();
+                    cancelDialog();
                     break;
             }
         }
     };
-    private void setMyTitle(){
+
+    private void setMyTitle() {
         initTitle();
         setTitle("排行榜");
         setIconListener(new View.OnClickListener() {
@@ -74,20 +68,22 @@ public class RankingActivity extends BaseActivty {
             }
         });
     }
-    private void initView(){
-        dayRanking = (TextView)findViewById(R.id.day_ranking);
-        weekRanking = (TextView)findViewById(R.id.week_ranking);
-        monthRanking = (TextView)findViewById(R.id.month_ranking);
-        listView = (ListView)findViewById(R.id.list);
+
+    private void initView() {
+        dayRanking = (TextView) findViewById(R.id.day_ranking);
+        weekRanking = (TextView) findViewById(R.id.week_ranking);
+        monthRanking = (TextView) findViewById(R.id.month_ranking);
+        listView = (ListView) findViewById(R.id.list);
 
         dayRanking.setOnClickListener(listener);
         weekRanking.setOnClickListener(listener);
         monthRanking.setOnClickListener(listener);
     }
+
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.day_ranking:
                     dayRanking.setBackground(getMyDrawable(R.drawable.day_text_bg_choose));
                     weekRanking.setBackground(getMyDrawable(R.drawable.week_text_bg_normal));
@@ -109,49 +105,52 @@ public class RankingActivity extends BaseActivty {
             }
         }
     };
-    private void getData(String phone, final int type){
-        if(!phone.equals("")){
+
+    private void getData(String phone, final int type) {
+        if (!phone.equals("")) {
             RetrofitUtils.getInstance()
-                    .getGetLeaderBoardsService()
-                    .getLeaderBoards(phone, type)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<MogeLeaderboards>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-                            statrProgressDialog();
-                        }
+                .getGetLeaderBoardsService()
+                .getLeaderBoards(phone, type)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MogeLeaderboards>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        statrProgressDialog();
+                    }
 
-                        @Override
-                        public void onNext(MogeLeaderboards mogeLeaderboards) {
-                            leaderboards = mogeLeaderboards;
-                        }
+                    @Override
+                    public void onNext(MogeLeaderboards mogeLeaderboards) {
+                        leaderboards = mogeLeaderboards;
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            cancel();
-                            ToastUtil.tip(RankingActivity.this, "请求出错", 1);
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                        cancelDialog();
+                        ToastUtil.tip(RankingActivity.this, "请求出错", 1);
+                    }
 
-                        @Override
-                        public void onComplete() {
-                            cancel();
-                            updateAdapter();
-                        }
-                    });
-        }else {
+                    @Override
+                    public void onComplete() {
+                        cancelDialog();
+                        updateAdapter();
+                    }
+                });
+        } else {
             ToastUtil.tip(this, "请先授权登录", 0);
         }
     }
-    private void updateAdapter(){
+
+    private void updateAdapter() {
         adapter = new RankingListViewAdapter(this, leaderboards.getItems());
         listView.setAdapter(adapter);
     }
-    private Drawable getMyDrawable(int id){
+
+    private Drawable getMyDrawable(int id) {
         Drawable drawable;
-        if(Build.VERSION.SDK_INT >= 23){
+        if (Build.VERSION.SDK_INT >= 23) {
             drawable = this.getDrawable(id);
-        }else {
+        } else {
             drawable = this.getResources().getDrawable(id);
         }
         return drawable;

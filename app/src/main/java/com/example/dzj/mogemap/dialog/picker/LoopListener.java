@@ -5,8 +5,7 @@
 package com.example.dzj.mogemap.dialog.picker;
 
 
-public interface LoopListener
-{
+public interface LoopListener {
 
     void onItemSelect(int item);
 }

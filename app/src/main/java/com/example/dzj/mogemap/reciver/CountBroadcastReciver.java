@@ -14,17 +14,18 @@ import static com.example.dzj.mogemap.utils.StepDetection.COUNT_BROADCASTRECEIVE
 
 public class CountBroadcastReciver extends BroadcastReceiver {
     private RunActivity.CountListener countListener;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(intent.getAction().equals(COUNT_BROADCASTRECEIVER)){
-            int count = intent.getIntExtra(COUNT_BROADCASTRECEIVER,0);
-            if(null != countListener){
+        if (intent.getAction().equals(COUNT_BROADCASTRECEIVER)) {
+            int count = intent.getIntExtra(COUNT_BROADCASTRECEIVER, 0);
+            if (null != countListener) {
                 countListener.setCount(count);
             }
         }
     }
 
-    public void setCountListener(RunActivity.CountListener listener){
+    public void setCountListener(RunActivity.CountListener listener) {
         this.countListener = listener;
     }
 }

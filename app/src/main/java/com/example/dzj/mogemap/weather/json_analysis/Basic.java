@@ -1,18 +1,22 @@
 package com.example.dzj.mogemap.weather.json_analysis;
 
 public class Basic {
-	private String city;
-	private String cnty;
-	public String getCity(){
-		return city;
-	}
-	public void setCity(String city){
-		this.city=city;
-	}
-	public String getCnty(){
-		return cnty;
-	}
-	public void setCnty(String cnty){
-		this.cnty=cnty;
-	}
+    private String city;
+    private String cnty;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCnty() {
+        return cnty;
+    }
+
+    public void setCnty(String cnty) {
+        this.cnty = cnty;
+    }
 }

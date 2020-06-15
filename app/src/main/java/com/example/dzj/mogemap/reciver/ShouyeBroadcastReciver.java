@@ -14,8 +14,8 @@ public class ShouyeBroadcastReciver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(intent.getAction().equals(SHOU_YE)){
-            if (updateShouyeListener != null){
+        if (intent.getAction().equals(SHOU_YE)) {
+            if (updateShouyeListener != null) {
                 updateShouyeListener.onUpdate();
             }
         }
@@ -25,7 +25,7 @@ public class ShouyeBroadcastReciver extends BroadcastReceiver {
         this.updateShouyeListener = updateShouyeListener;
     }
 
-    public interface UpdateShouyeListener{
+    public interface UpdateShouyeListener {
         void onUpdate();
     }
 }

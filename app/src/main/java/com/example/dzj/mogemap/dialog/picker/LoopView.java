@@ -208,7 +208,7 @@ public class LoopView extends View {
         return mCurrentItem;
     }
 
-    public final String getCurrentItemValue(){
+    public final String getCurrentItemValue() {
         return String.valueOf(arrayList.get(getCurrentItem())).trim();
     }
 
@@ -288,8 +288,8 @@ public class LoopView extends View {
                 k1++;
             }
             k1 = (v - g) / 2;
-             canvas.drawLine(0.0F, n, v, n, paintC);
-             canvas.drawLine(0.0F, o, v, o, paintC);
+            canvas.drawLine(0.0F, n, v, n, paintC);
+            canvas.drawLine(0.0F, o, v, o, paintC);
             int j1 = 0;
             while (j1 < r) {
                 canvas.save();

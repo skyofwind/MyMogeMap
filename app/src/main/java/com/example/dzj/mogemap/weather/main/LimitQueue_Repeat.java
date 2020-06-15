@@ -9,14 +9,15 @@ import java.util.Queue;
  * Created by dzj on 2017/3/26.
  */
 
-public class LimitQueue_Repeat <E> implements Queue<E>,Cloneable {
+public class LimitQueue_Repeat<E> implements Queue<E>, Cloneable {
     /**
      * 队列长度，实例化类的时候指定
      */
     private int limit;
 
     Queue<E> queue = new LinkedList<>();
-    public LimitQueue_Repeat(int limit){
+
+    public LimitQueue_Repeat(int limit) {
         this.limit = limit;
     }
 
@@ -24,8 +25,8 @@ public class LimitQueue_Repeat <E> implements Queue<E>,Cloneable {
      * 入队
      */
     @Override
-    public boolean offer(E e){
-        if(queue.size() >= limit){
+    public boolean offer(E e) {
+        if (queue.size() >= limit) {
             //如果超出长度,入队时,先出队
             queue.poll();
         }
@@ -45,9 +46,9 @@ public class LimitQueue_Repeat <E> implements Queue<E>,Cloneable {
      *
      * @return
      * @author SHANHY
-     * @date   2015年11月9日
+     * @date 2015年11月9日
      */
-    public Queue<E> getQueue(){
+    public Queue<E> getQueue() {
         return queue;
     }
 
@@ -56,9 +57,9 @@ public class LimitQueue_Repeat <E> implements Queue<E>,Cloneable {
      *
      * @return
      * @author SHANHY
-     * @date   2015年11月9日
+     * @date 2015年11月9日
      */
-    public int getLimit(){
+    public int getLimit() {
         return limit;
     }
 
@@ -141,12 +142,13 @@ public class LimitQueue_Repeat <E> implements Queue<E>,Cloneable {
     public <T> T[] toArray(T[] a) {
         return queue.toArray(a);
     }
+
     @Override
-    public LimitQueue_Repeat<E> clone(){
+    public LimitQueue_Repeat<E> clone() {
         LimitQueue_Repeat limitQueue = null;
-        try{
-            limitQueue = (LimitQueue_Repeat)super.clone();
-            limitQueue.queue=new LinkedList<>(queue);
+        try {
+            limitQueue = (LimitQueue_Repeat) super.clone();
+            limitQueue.queue = new LinkedList<>(queue);
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

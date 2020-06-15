@@ -25,12 +25,12 @@ import java.util.List;
  * Created by dzj on 2018/2/23.
  */
 
-public class FriendsListViewAdapter extends BaseAdapter{
+public class FriendsListViewAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater = null;
     private List<Mogemap_user> users;
 
-    public FriendsListViewAdapter(Context context, List<Mogemap_user> users){
+    public FriendsListViewAdapter(Context context, List<Mogemap_user> users) {
         this.context = context;
         this.users = users;
         inflater = LayoutInflater.from(context);
@@ -51,20 +51,20 @@ public class FriendsListViewAdapter extends BaseAdapter{
         return position;
     }
 
-    
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if(convertView == null){
+        if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.friends_item, null);
-            holder.icon = (RoundImageView)convertView.findViewById(R.id.icon);
-            holder.name = (TextView)convertView.findViewById(R.id.name);
-            holder.pk = (ImageView)convertView.findViewById(R.id.pk);
-            holder.delete = (ImageView)convertView.findViewById(R.id.delete);
+            holder.icon = (RoundImageView) convertView.findViewById(R.id.icon);
+            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.pk = (ImageView) convertView.findViewById(R.id.pk);
+            holder.delete = (ImageView) convertView.findViewById(R.id.delete);
             convertView.setTag(holder);
-        }else {
-            holder = (ViewHolder)convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
         setHeadImage(holder.icon, users.get(position).getHeadurl());
         holder.name.setText(users.get(position).getName());
@@ -76,7 +76,7 @@ public class FriendsListViewAdapter extends BaseAdapter{
                 bundle.putString("mPhone", UserManager.getInstance().getUser().getPhone());
                 bundle.putString("fPhone", users.get(position).getPhone());
                 pkDialogFragment.setArguments(bundle);
-                pkDialogFragment.show(((FriendsActivity)context).getFragmentManager(), "PKDialogFragment");
+                pkDialogFragment.show(((FriendsActivity) context).getFragmentManager(), "PKDialogFragment");
             }
         });
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -88,25 +88,27 @@ public class FriendsListViewAdapter extends BaseAdapter{
                 bundle.putString("fPhone", users.get(position).getPhone());
                 bundle.putInt("position", position);
                 confirmDeleteDialogFragment.setArguments(bundle);
-                confirmDeleteDialogFragment.show(((FriendsActivity)context).getFragmentManager(), "ConfirmDeleteDialogFragment");
+                confirmDeleteDialogFragment.show(((FriendsActivity) context).getFragmentManager(), "ConfirmDeleteDialogFragment");
             }
         });
 
         return convertView;
     }
-    static class ViewHolder{
+
+    static class ViewHolder {
         public RoundImageView icon;
         public TextView name;
         public ImageView pk;
         public ImageView delete;
     }
-    private void setHeadImage(final RoundImageView view, final String url){
+
+    private void setHeadImage(final RoundImageView view, final String url) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if(url != null){
+                if (url != null) {
                     final Bitmap bitmap = HttpUtil.getHttpBitmap(url);
-                    ((FriendsActivity)context).runOnUiThread(new Runnable() {
+                    ((FriendsActivity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             view.setImageBitmap(bitmap);

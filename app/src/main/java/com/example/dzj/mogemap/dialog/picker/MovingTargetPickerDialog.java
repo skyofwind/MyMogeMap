@@ -107,7 +107,7 @@ public class MovingTargetPickerDialog extends Dialog {
                     params.callback.onMovingTargetSelected(getCurrRegionValue());
                 }
             });
-            view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener(){
+            view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
@@ -116,18 +116,18 @@ public class MovingTargetPickerDialog extends Dialog {
             });
             final LoopView loopType = (LoopView) view.findViewById(R.id.loop_type);
             loopType.setArrayList(new ArrayList(params.dataList.keySet()));
-            Log.d("result",loopType.arrayList.toString());
+            Log.d("result", loopType.arrayList.toString());
             loopType.setNotLoop();
-            if (params.dataList.size() > 0){
+            if (params.dataList.size() > 0) {
                 loopType.setCurrentItem(params.initSelection);
             }
-            Log.d("result",params.initSelection+"");
+            Log.d("result", params.initSelection + "");
             final LoopView loopValue = (LoopView) view.findViewById(R.id.loop_value);
             String selectedCity = loopType.getCurrentItemValue();
 
-            Log.d("result",loopType.getCurrentItemValue()+" "+loopType.getCurrentItem());
+            Log.d("result", loopType.getCurrentItemValue() + " " + loopType.getCurrentItem());
             loopValue.setArrayList(params.dataList.get(selectedCity));
-            Log.d("result",loopValue.arrayList.toString()+"");
+            Log.d("result", loopValue.arrayList.toString() + "");
             loopValue.setNotLoop();
 
             loopType.setListener(new LoopListener() {
@@ -141,9 +141,9 @@ public class MovingTargetPickerDialog extends Dialog {
             Window win = dialog.getWindow();
             win.getDecorView().setPadding(0, 0, 0, 0);
             WindowManager.LayoutParams lp = win.getAttributes();
-            if (SystemUtils.MAX_WIDTH != 0){
-                lp.width = SystemUtils.MAX_WIDTH-50;
-            }else {
+            if (SystemUtils.MAX_WIDTH != 0) {
+                lp.width = SystemUtils.MAX_WIDTH - 50;
+            } else {
                 lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             }
             //Log.d("match",""+WindowManager.LayoutParams.MATCH_PARENT);
@@ -164,7 +164,8 @@ public class MovingTargetPickerDialog extends Dialog {
 
             return dialog;
         }
-        public String[] getChoose(){
+
+        public String[] getChoose() {
             return getCurrRegionValue();
         }
     }

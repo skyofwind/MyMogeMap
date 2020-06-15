@@ -9,6 +9,11 @@ import java.util.List;
 public class Result {
     private List<HEWeather5> HeWeather5;
 
-    public List<HEWeather5> getHeWeather5(){return HeWeather5;}
-    public void setHeWeather5(List<HEWeather5> HeWeather5){this.HeWeather5=HeWeather5;}
+    public List<HEWeather5> getHeWeather5() {
+        return HeWeather5;
+    }
+
+    public void setHeWeather5(List<HEWeather5> HeWeather5) {
+        this.HeWeather5 = HeWeather5;
+    }
 }

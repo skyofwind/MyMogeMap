@@ -24,33 +24,36 @@ public class ConfirmDialogFragment extends DialogFragment {
     private View root;
     private Button keep, finish;
     private OnDialogListener k, f;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         root = inflater.inflate(R.layout.confirm_layout, null);
         init();
         return root;
     }
+
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         Window window = getDialog().getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.gravity = Gravity.BOTTOM;
-        params.width = SystemUtils.MAX_WIDTH-50;
+        params.width = SystemUtils.MAX_WIDTH - 50;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.y = 30;
         window.setAttributes(params);
         //设置背景透明
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
-    private void init(){
-        keep = (Button)root.findViewById(R.id.submit);
-        finish = (Button)root.findViewById(R.id.cancle);
+
+    private void init() {
+        keep = (Button) root.findViewById(R.id.submit);
+        finish = (Button) root.findViewById(R.id.cancle);
         keep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(k != null){
+                if (k != null) {
                     k.onDialogClick();
                     dismiss();
                 }
@@ -59,20 +62,23 @@ public class ConfirmDialogFragment extends DialogFragment {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(finish != null){
+                if (finish != null) {
                     f.onDialogClick();
                     dismiss();
                 }
             }
         });
     }
+
     public interface OnDialogListener {
         void onDialogClick();
     }
-    public void setKeep(OnDialogListener listener){
+
+    public void setKeep(OnDialogListener listener) {
         k = listener;
     }
-    public void setFinish(OnDialogListener listener){
+
+    public void setFinish(OnDialogListener listener) {
         f = listener;
     }
 }

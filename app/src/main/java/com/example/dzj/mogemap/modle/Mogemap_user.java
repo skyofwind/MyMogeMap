@@ -32,7 +32,7 @@ public class Mogemap_user {
     }
 
     public String getPhone() {
-        if (phone == null){
+        if (phone == null) {
             phone = "";
         }
         return phone;
@@ -59,7 +59,7 @@ public class Mogemap_user {
     }
 
     public String getSex() {
-        if(sex == null){
+        if (sex == null) {
             return "无";
         }
         return sex;
@@ -70,7 +70,7 @@ public class Mogemap_user {
     }
 
     public Date getBirthday() {
-        if(birthday == null){
+        if (birthday == null) {
             return null;
         }
         return birthday;
@@ -81,7 +81,7 @@ public class Mogemap_user {
     }
 
     public Integer getHeight() {
-        if(height == null){
+        if (height == null) {
             return 0;
         }
         return height;
@@ -92,7 +92,7 @@ public class Mogemap_user {
     }
 
     public Integer getWeight() {
-        if (weight == null){
+        if (weight == null) {
             return 0;
         }
         return weight;

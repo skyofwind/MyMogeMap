@@ -7,8 +7,20 @@ package com.example.dzj.mogemap.weather.json_analysis;
 public class City {
     private String qlty;
     private String aqi;
-    public String getQlty(){return qlty;}
-    public void  setQlty(String qlty){this.qlty=qlty;}
-    public String getAqi(){return aqi;}
-    public void  setAqi(String aqi){this.aqi=aqi;}
+
+    public String getQlty() {
+        return qlty;
+    }
+
+    public void setQlty(String qlty) {
+        this.qlty = qlty;
+    }
+
+    public String getAqi() {
+        return aqi;
+    }
+
+    public void setAqi(String aqi) {
+        this.aqi = aqi;
+    }
 }

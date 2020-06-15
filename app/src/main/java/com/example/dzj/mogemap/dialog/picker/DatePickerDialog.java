@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.List;
 
 
-
 public class DatePickerDialog extends Dialog {
 
     private static final int MIN_YEAR = 1900;
@@ -31,9 +30,8 @@ public class DatePickerDialog extends Dialog {
     }
 
     public interface OnDateSelectedListener {
-         void onDateSelected(int[] dates);
+        void onDateSelected(int[] dates);
     }
-
 
 
     private static final class Params {
@@ -53,10 +51,12 @@ public class DatePickerDialog extends Dialog {
             this.context = context;
             params = new DatePickerDialog.Params();
         }
+
         public Builder setChoose(int[] datas) {
             params.mydata = datas;
             return this;
         }
+
         /**
          * 获取当前选择的日期
          *
@@ -82,16 +82,16 @@ public class DatePickerDialog extends Dialog {
             final LoopView loopDay = (LoopView) view.findViewById(R.id.loop_day);
             List<String> list = d(1, 30);
             loopDay.setArrayList(list);
-            if(params.mydata != null){
+            if (params.mydata != null) {
                 int mDay = params.mydata[2];
-                for(int i = 0; i < list.size(); i++){
+                for (int i = 0; i < list.size(); i++) {
                     int temp = Integer.parseInt(list.get(i));
-                    if (mDay == temp){
+                    if (mDay == temp) {
                         loopDay.setCurrentItem(i);
                         break;
                     }
                 }
-            }else {
+            } else {
                 loopDay.setCurrentItem(15);
             }
             loopDay.setNotLoop();
@@ -101,16 +101,16 @@ public class DatePickerDialog extends Dialog {
             final LoopView loopYear = (LoopView) view.findViewById(R.id.loop_year);
             list = d(MIN_YEAR, year - MIN_YEAR + 1);
             loopYear.setArrayList(list);
-            if(params.mydata != null){
+            if (params.mydata != null) {
                 int mYear = params.mydata[0];
-                for(int i = 0; i < list.size(); i++){
+                for (int i = 0; i < list.size(); i++) {
                     int temp = Integer.parseInt(list.get(i));
-                    if (mYear == temp){
+                    if (mYear == temp) {
                         loopYear.setCurrentItem(i);
                         break;
                     }
                 }
-            }else {
+            } else {
                 loopYear.setCurrentItem(year - MIN_YEAR - 25);
             }
             //
@@ -119,16 +119,16 @@ public class DatePickerDialog extends Dialog {
             final LoopView loopMonth = (LoopView) view.findViewById(R.id.loop_month);
             list = d(1, 12);
             loopMonth.setArrayList(list);
-            if(params.mydata != null) {
+            if (params.mydata != null) {
                 int mMonth = params.mydata[1];
-                for(int i = 0; i < list.size(); i++){
+                for (int i = 0; i < list.size(); i++) {
                     int temp = Integer.parseInt(list.get(i));
-                    if (mMonth == temp){
+                    if (mMonth == temp) {
                         loopMonth.setCurrentItem(i);
                         break;
                     }
                 }
-            }else {
+            } else {
                 loopMonth.setCurrentItem(6);
             }
             loopMonth.setNotLoop();
@@ -167,7 +167,7 @@ public class DatePickerDialog extends Dialog {
             Window win = dialog.getWindow();
             win.getDecorView().setPadding(0, 0, 0, 0);
             WindowManager.LayoutParams lp = win.getAttributes();
-            lp.width = SystemUtils.MAX_WIDTH-50;
+            lp.width = SystemUtils.MAX_WIDTH - 50;
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             lp.y = 30;
             win.setAttributes(lp);

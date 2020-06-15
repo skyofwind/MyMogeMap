@@ -59,6 +59,7 @@ public class MapUtil {
         mapView.showScaleControl(false);
         mapView.showZoomControls(false);
     }
+
     public void onPause() {
         if (null != mapView) {
             mapView.onPause();
@@ -91,25 +92,27 @@ public class MapUtil {
             mapView = null;
         }
     }
-    public void drawTwoPointLine(LatLng start, LatLng end){
+
+    public void drawTwoPointLine(LatLng start, LatLng end) {
         List<LatLng> polylines = new ArrayList<>();
         polylines.add(start);
         polylines.add(end);
         PolylineOptions polylineOptions = new PolylineOptions().points(polylines).width(11).color(Color.RED);
         baiduMap.addOverlay(polylineOptions);
     }
-    public void drawRuningLine(List<LatLng> points){
-        if(points == null || points.size() == 0){
+
+    public void drawRuningLine(List<LatLng> points) {
+        if (points == null || points.size() == 0) {
             if (null != polylineOverlay) {
                 polylineOverlay.remove();
                 polylineOverlay = null;
             }
-            return ;
+            return;
         }
 
-        if(points.size() == 1){
+        if (points.size() == 1) {
             OverlayOptions startOptions = new MarkerOptions().position(points.get(0)).icon(bmStart)
-                    .zIndex(9).draggable(true);
+                .zIndex(9).draggable(true);
             baiduMap.addOverlay(startOptions);
             animateMapStatus(points.get(0), 18.0f);
             return;
@@ -121,47 +124,50 @@ public class MapUtil {
         //endPoint = points.get(points.size() - 1);
         // 添加起点图标
         OverlayOptions startOptions = new MarkerOptions()
-                .position(startPoint).icon(bmStart)
-                .zIndex(9).draggable(true);
+            .position(startPoint).icon(bmStart)
+            .zIndex(9).draggable(true);
         // 添加终点图标
         //OverlayOptions endOptions = new MarkerOptions().position(endPoint)
         //        .icon(bmEnd).zIndex(9).draggable(true);
 
         // 添加路线（轨迹）
         OverlayOptions polylineOptions = new PolylineOptions().width(13)
-                .color(Color.RED).points(points);
+            .color(Color.RED).points(points);
 
         baiduMap.addOverlay(startOptions);
         //baiduMap.addOverlay(endOptions);
         polylineOverlay = baiduMap.addOverlay(polylineOptions);
     }
-    public void drawStartPoint(LatLng latLng){
+
+    public void drawStartPoint(LatLng latLng) {
         // 添加起点图标
         OverlayOptions startOptions = new MarkerOptions()
-                .position(latLng).icon(bmStart)
-                .zIndex(9).draggable(true);
+            .position(latLng).icon(bmStart)
+            .zIndex(9).draggable(true);
         baiduMap.addOverlay(startOptions);
     }
-    public void drawEndPoint(LatLng latLng){
+
+    public void drawEndPoint(LatLng latLng) {
         // 添加终点图标
         OverlayOptions endOptions = new MarkerOptions().position(latLng)
-                .icon(bmEnd).zIndex(9).draggable(true);
+            .icon(bmEnd).zIndex(9).draggable(true);
         baiduMap.addOverlay(endOptions);
     }
-    public void drawHistoryTrack(List<LatLng> points){
+
+    public void drawHistoryTrack(List<LatLng> points) {
 
 
-        if(points == null || points.size() == 0){
+        if (points == null || points.size() == 0) {
             if (null != polylineOverlay) {
                 polylineOverlay.remove();
                 polylineOverlay = null;
             }
-            return ;
+            return;
         }
 
-        if(points.size() == 1){
+        if (points.size() == 1) {
             OverlayOptions startOptions = new MarkerOptions().position(points.get(0)).icon(bmStart)
-                    .zIndex(9).draggable(true);
+                .zIndex(9).draggable(true);
             baiduMap.addOverlay(startOptions);
             animateMapStatus(points.get(0), 18.0f);
             return;
@@ -173,15 +179,15 @@ public class MapUtil {
         endPoint = points.get(points.size() - 1);
         // 添加起点图标
         OverlayOptions startOptions = new MarkerOptions()
-                .position(startPoint).icon(bmStart)
-                .zIndex(9).draggable(true);
+            .position(startPoint).icon(bmStart)
+            .zIndex(9).draggable(true);
         // 添加终点图标
         OverlayOptions endOptions = new MarkerOptions().position(endPoint)
-                .icon(bmEnd).zIndex(9).draggable(true);
+            .icon(bmEnd).zIndex(9).draggable(true);
 
         // 添加路线（轨迹）
         OverlayOptions polylineOptions = new PolylineOptions().width(10)
-                .color(Color.BLUE).points(points);
+            .color(Color.BLUE).points(points);
 
         baiduMap.addOverlay(startOptions);
         baiduMap.addOverlay(endOptions);
@@ -197,6 +203,7 @@ public class MapUtil {
         }
         return marker;
     }
+
     public void animateMapStatus(List<LatLng> points) {
         if (null == points || points.isEmpty()) {
             return;

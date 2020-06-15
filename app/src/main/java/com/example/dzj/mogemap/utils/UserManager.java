@@ -9,16 +9,19 @@ import com.example.dzj.mogemap.modle.Mogemap_user;
 public class UserManager {
     private static UserManager userManager;
     private Mogemap_user user;
-    private UserManager(){}
-    public static UserManager getInstance(){
-        if(userManager == null){
+
+    private UserManager() {
+    }
+
+    public static UserManager getInstance() {
+        if (userManager == null) {
             userManager = new UserManager();
         }
         return userManager;
     }
 
     public Mogemap_user getUser() {
-        if(user == null){
+        if (user == null) {
             user = new Mogemap_user();
         }
         return user;

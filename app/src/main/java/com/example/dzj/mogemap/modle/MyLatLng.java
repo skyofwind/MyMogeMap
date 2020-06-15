@@ -9,5 +9,7 @@ public class MyLatLng {
     public double longitude;
     public double latitudeE6;
     public double longitudeE6;
-    public MyLatLng(){}
+
+    public MyLatLng() {
+    }
 }

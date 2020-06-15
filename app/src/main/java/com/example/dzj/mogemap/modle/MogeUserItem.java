@@ -45,7 +45,8 @@ public class MogeUserItem implements Comparable<MogeUserItem> {
         Double b = o.getDistance();
         return a.compareTo(b);
     }
+
     public String toString() {
-        return "id="+id+" distance="+distance;
+        return "id=" + id + " distance=" + distance;
     }
 }

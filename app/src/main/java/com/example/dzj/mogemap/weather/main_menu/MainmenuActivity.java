@@ -21,14 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class MainmenuActivity extends Activity {
 
     private Context mContext;
     public MenuDataManager menuDataManager = MenuDataManager.getInstance();//获得txt文档数据
     private MyViewPager mViewPager;
-    private View view1,view2,view3;
-    private ListView mListView1,mListView2,mListView3;
+    private View view1, view2, view3;
+    private ListView mListView1, mListView2, mListView3;
     private MenuDialogAdapter mListView1Adapter, mListView2Adapter, mListView3Adapter;
     private List<View> views = new ArrayList<View>();
     private MenuData resultDate;//结果集
@@ -54,7 +53,7 @@ public class MainmenuActivity extends Activity {
         mListView2 = (ListView) view2.findViewById(R.id.listview);
         mListView3 = (ListView) view3.findViewById(R.id.listview);
 
-        List<MenuData> list1=menuDataManager.getTripleColumnData(this, 0);//关键赋值
+        List<MenuData> list1 = menuDataManager.getTripleColumnData(this, 0);//关键赋值
         mListView1Adapter = new MenuDialogAdapter(this, list1);
         mListView1Adapter.setSelectedBackgroundResource(R.drawable.select_white);//选中时
         mListView1Adapter.setHasDivider(false);
@@ -133,7 +132,7 @@ public class MainmenuActivity extends Activity {
                 mViewPager.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mViewPager.setCurrentItem(views.size()-1);
+                        mViewPager.setCurrentItem(views.size() - 1);
                     }
                 }, 300);
             }
@@ -149,9 +148,9 @@ public class MainmenuActivity extends Activity {
     }
 
     //传递值
-    private void setResultDate(MenuData menuData){
-        Intent intent=new Intent();
-        intent.putExtra("menu",(Serializable)menuData);
+    private void setResultDate(MenuData menuData) {
+        Intent intent = new Intent();
+        intent.putExtra("menu", (Serializable) menuData);
         setResult(0, intent);
         finish();
     }

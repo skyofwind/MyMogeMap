@@ -11,19 +11,22 @@ import android.content.Intent;
 public class BindAccoutBroadcastReciver extends BroadcastReceiver {
     public static final String BIND_ACCOUT = "bindaccoutreciver";
     private BindAccoutListener listener;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(intent.getAction().equals(BIND_ACCOUT)){
+        if (intent.getAction().equals(BIND_ACCOUT)) {
             String s = intent.getStringExtra("type");
-            if (listener != null){
+            if (listener != null) {
                 listener.onUpdate(s);
             }
         }
     }
-    public interface BindAccoutListener{
+
+    public interface BindAccoutListener {
         void onUpdate(String s);
     }
-    public void setListener(BindAccoutListener listener){
+
+    public void setListener(BindAccoutListener listener) {
         this.listener = listener;
     }
 }

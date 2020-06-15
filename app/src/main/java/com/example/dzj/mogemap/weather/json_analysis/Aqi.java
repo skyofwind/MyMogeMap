@@ -6,6 +6,12 @@ package com.example.dzj.mogemap.weather.json_analysis;
 
 public class Aqi {
     private City city;
-    public City getCity(){return city;}
-    public void setCity(City city){this.city=city;}
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 }

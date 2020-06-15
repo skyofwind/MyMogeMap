@@ -8,9 +8,10 @@ public class RunRecord {
     private String date;
     private double distance;
 
-    public RunRecord(){}
+    public RunRecord() {
+    }
 
-    public RunRecord(String date, double distance){
+    public RunRecord(String date, double distance) {
         this.date = date;
         this.distance = distance;
     }

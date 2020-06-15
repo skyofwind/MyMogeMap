@@ -3,6 +3,7 @@ package com.example.dzj.mogemap.view;
 /**
  * Created by dzj on 2018/2/20.
  */
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -102,8 +103,8 @@ public class RoundImageView extends androidx.appcompat.widget.AppCompatImageView
                     final int scrollX = getScrollX();
                     final int scrollY = getScrollY();
                     canvas.clipRect(scrollX + getPaddingLeft(), scrollY + getPaddingTop(),
-                            scrollX + getRight() - getLeft() - getPaddingRight(),
-                            scrollY + getBottom() - getTop() - getPaddingBottom());
+                        scrollX + getRight() - getLeft() - getPaddingRight(),
+                        scrollY + getBottom() - getTop() - getPaddingBottom());
                 }
             }
             canvas.translate(getPaddingLeft(), getPaddingTop());
@@ -115,7 +116,7 @@ public class RoundImageView extends androidx.appcompat.widget.AppCompatImageView
                 Bitmap bitmap = drawable2Bitmap(mDrawable);
                 mPaint.setShader(new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
                 canvas.drawRoundRect(new RectF(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom()),
-                        currRound, currRound, mPaint);
+                    currRound, currRound, mPaint);
             } else {
                 if (mDrawMatrix != null) {
                     canvas.concat(mDrawMatrix);

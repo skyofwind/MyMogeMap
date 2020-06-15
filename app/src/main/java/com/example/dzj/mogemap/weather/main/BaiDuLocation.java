@@ -18,22 +18,23 @@ public class BaiDuLocation {
     //百度地图调用
     private LocationClient mLocationClient;
     private BDLocationListener myListener;
-    private boolean complete,locationType;
+    private boolean complete, locationType;
     private LocationInfo info;
     private Context context;
-    public BaiDuLocation(Context context){
-        this.context=context;
-        info=new LocationInfo();
-        complete=false;
-        locationType=false;
+
+    public BaiDuLocation(Context context) {
+        this.context = context;
+        info = new LocationInfo();
+        complete = false;
+        locationType = false;
         mLocationClient = new LocationClient(context);     //声明LocationClient类
         myListener = new MyLocationListener();
-        mLocationClient.registerLocationListener( myListener );    //注册监听函数
+        mLocationClient.registerLocationListener(myListener);    //注册监听函数
         initLocation();
     }
 
     //百度定位相关
-    private void initLocation(){
+    private void initLocation() {
         LocationClientOption mOption = new LocationClientOption();
         mOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         mOption.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系，如果配合百度地图使用，建议设置为bd09ll;
@@ -48,63 +49,70 @@ public class BaiDuLocation {
         mOption.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
         mLocationClient.setLocOption(mOption);
     }
+
     //百度定位监听器
     private class MyLocationListener implements BDLocationListener {
         @Override
         public void onReceiveLocation(BDLocation location) {
-            Intent intent=new Intent();
+            Intent intent = new Intent();
             intent.setAction(WeatherActivity.DYNAMICACTION);
-            Bundle bundle=new Bundle();
-            try{
+            Bundle bundle = new Bundle();
+            try {
                 //得到当前城市名并转为拼音传入天气接口函数
-                if((!location.getProvince().equals(""))&&(!location.getCity().equals(""))&&(!location.getDistrict().equals(""))){
+                if ((!location.getProvince().equals("")) && (!location.getCity().equals("")) && (!location.getDistrict().equals(""))) {
                     info.setProvince(DataDeal.data_Province(location.getProvince()));
                     info.setCity(DataDeal.data_City(location.getCity()));
                     info.setDistrict(DataDeal.data_District(location.getDistrict()));
-                    complete=true;
-                    locationType=true;
-                    Log.d("经度",location.getLongitude()+"");
-                    Log.d("纬度",location.getLatitude()+"");
+                    complete = true;
+                    locationType = true;
+                    Log.d("经度", location.getLongitude() + "");
+                    Log.d("纬度", location.getLatitude() + "");
                     mLocationClient.stop();
-                    intent.putExtra(WeatherActivity.RESULT,"success");
-                    bundle.putParcelable(WeatherActivity.LOCATIONINFO,info);
+                    intent.putExtra(WeatherActivity.RESULT, "success");
+                    bundle.putParcelable(WeatherActivity.LOCATIONINFO, info);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 info.setProvince("北京");
                 info.setCity("北京");
                 info.setDistrict("北京");
-                complete=true;
+                complete = true;
                 mLocationClient.stop();
-                intent.putExtra(WeatherActivity.RESULT,"fail");
-                bundle.putParcelable(WeatherActivity.LOCATIONINFO,info);
+                intent.putExtra(WeatherActivity.RESULT, "fail");
+                bundle.putParcelable(WeatherActivity.LOCATIONINFO, info);
             }
             intent.putExtras(bundle);
             context.sendBroadcast(intent);
         }
     }
-    public void Start(){
+
+    public void Start() {
         mLocationClient.start();
     }
-    public void Stop(){
-        if (mLocationClient.isStarted()){
+
+    public void Stop() {
+        if (mLocationClient.isStarted()) {
             mLocationClient.stop();
         }
     }
-    public boolean isLocationStart(){
-        if (mLocationClient.isStarted()){
+
+    public boolean isLocationStart() {
+        if (mLocationClient.isStarted()) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
-    public LocationInfo getInfo(){
+
+    public LocationInfo getInfo() {
         return info;
     }
-    public boolean getComplete(){
+
+    public boolean getComplete() {
         return complete;
     }
-    public boolean getLocationType(){
+
+    public boolean getLocationType() {
         return locationType;
     }
 }

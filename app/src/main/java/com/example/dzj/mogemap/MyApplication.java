@@ -2,6 +2,7 @@ package com.example.dzj.mogemap;
 
 import android.app.Application;
 import android.app.Service;
+import android.content.Context;
 import android.os.Vibrator;
 import android.util.Log;
 
@@ -28,11 +29,14 @@ import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
     protected Vibrator mVibrator;
-   // public static AuthInfo mAuthInfo;
+    public static Context applicationContext;
+
+    // public static AuthInfo mAuthInfo;
     @Override
     public void onCreate() {
         super.onCreate();
         Log.e("mycompare", "Application");
+        applicationContext = this;
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
         BuglyUtil.initBugly(getApplicationContext(), true);
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
@@ -44,22 +48,24 @@ public class MyApplication extends Application {
         initTest();
         MobSDK.init(this);
     }
+
     private void initSinaLogin() {
         /*mAuthInfo = new AuthInfo(this, Config.APP_KEY_SINA, Config.REDIRECT_URL,
                 Config.SCOPE);
         WbSdk.install(this, mAuthInfo);*/
     }
+
     private void initTest() {
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         CookieJarImpl cookieJar = new CookieJarImpl(new PersistentCookieStore(getApplicationContext()));
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
 //                .addInterceptor(new LoggerInterceptor("TAG"))
-                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
-                .readTimeout(10000L, TimeUnit.MILLISECONDS)
-                .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-                .cookieJar(cookieJar)
-                //其他配置
-                .build();
+            .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+            .readTimeout(10000L, TimeUnit.MILLISECONDS)
+            .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
+            .cookieJar(cookieJar)
+            //其他配置
+            .build();
         OkHttpUtils.initClient(okHttpClient);
     }
 }

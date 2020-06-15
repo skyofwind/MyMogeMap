@@ -20,8 +20,8 @@ public class ViewHolder {
         }
         View childView = viewHolder.get(id);
         if (childView == null) {
-            childView=view.findViewById(id);
-            viewHolder.put(id,childView);
+            childView = view.findViewById(id);
+            viewHolder.put(id, childView);
         }
         return (T) childView;
     }

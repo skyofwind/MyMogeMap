@@ -1,7 +1,9 @@
 package com.example.dzj.mogemap.weather.main_menu.view;
 
 import android.content.Context;
+
 import androidx.viewpager.widget.ViewPager;
+
 import android.util.AttributeSet;
 
 /**
@@ -16,12 +18,13 @@ public class MyViewPager extends ViewPager {
     public MyViewPager(Context context) {
         super(context);
     }
+
     //判断menu在x,y的位置
-    public void scrollTo(int x,int y){
-        if(getAdapter()==null||x>getWidth()*(getAdapter().getCount()-2)){
+    public void scrollTo(int x, int y) {
+        if (getAdapter() == null || x > getWidth() * (getAdapter().getCount() - 2)) {
             return;
         }
-        super.scrollTo(x,y);
+        super.scrollTo(x, y);
     }
 
 }

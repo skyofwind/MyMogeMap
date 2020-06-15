@@ -6,6 +6,12 @@ package com.example.dzj.mogemap.weather.json_analysis;
 
 public class Trav {
     private String txt;
-    public String getTxt(){return txt;}
-    public void setTxt(String txt){this.txt=txt;}
+
+    public String getTxt() {
+        return txt;
+    }
+
+    public void setTxt(String txt) {
+        this.txt = txt;
+    }
 }

@@ -23,8 +23,6 @@ import com.baidu.mapapi.model.LatLng;
 import com.example.dzj.mogemap.R;
 import com.example.dzj.mogemap.modle.Mogemap_run_record;
 import com.example.dzj.mogemap.modle.MyLatLng;
-import com.example.dzj.mogemap.rxjava.common.RecordsService;
-import com.example.dzj.mogemap.utils.BitmapUtil;
 import com.example.dzj.mogemap.utils.FileUtil;
 import com.example.dzj.mogemap.utils.HttpUtil;
 import com.example.dzj.mogemap.utils.MapUtil;
@@ -32,8 +30,6 @@ import com.example.dzj.mogemap.utils.OtherUtil;
 import com.example.dzj.mogemap.utils.RetrofitUtils;
 import com.example.dzj.mogemap.utils.ToastUtil;
 import com.example.dzj.mogemap.utils.UserManager;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,11 +42,9 @@ import java.util.List;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Call;
 
 import static android.R.attr.path;
 
@@ -75,16 +69,17 @@ public class RunRecordActivity extends BaseActivty {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.runrecord_layout);
-        personalData = (RelativeLayout)findViewById(R.id.personal_data);
+        personalData = (RelativeLayout) findViewById(R.id.personal_data);
         setMyTitle();
         initTextView();
         initMap();
         getData();
     }
-    private Handler handler = new Handler(){
+
+    private Handler handler = new Handler() {
         @Override
-        public void handleMessage(Message m){
-            switch (m.what){
+        public void handleMessage(Message m) {
+            switch (m.what) {
                 case 0x01:
                     updateUI();
                     drawMap();
@@ -93,7 +88,7 @@ public class RunRecordActivity extends BaseActivty {
                     statrProgressDialog();
                     break;
                 case 0x03:
-                    cancel();
+                    cancelDialog();
                     break;
                 case 0x04:
                     showShare();
@@ -101,7 +96,8 @@ public class RunRecordActivity extends BaseActivty {
             }
         }
     };
-    private void setMyTitle(){
+
+    private void setMyTitle() {
         initTitle();
         setTitle("运动记录");
         setIconRight(R.drawable.shared);
@@ -118,69 +114,73 @@ public class RunRecordActivity extends BaseActivty {
             }
         });
     }
-    private void initTextView(){
-        date = (TextView)findViewById(R.id.date);
-        topDistance = (TextView)findViewById(R.id.top_distance);
-        hour = (TextView)findViewById(R.id.top_text_time);
-        minute = (TextView)findViewById(R.id.top_text_minute);
-        second = (TextView)findViewById(R.id.top_text_second);
-        topSpeed = (TextView)findViewById(R.id.top_speed);
-        topCalories = (TextView)findViewById(R.id.top_calories);
+
+    private void initTextView() {
+        date = (TextView) findViewById(R.id.date);
+        topDistance = (TextView) findViewById(R.id.top_distance);
+        hour = (TextView) findViewById(R.id.top_text_time);
+        minute = (TextView) findViewById(R.id.top_text_minute);
+        second = (TextView) findViewById(R.id.top_text_second);
+        topSpeed = (TextView) findViewById(R.id.top_speed);
+        topCalories = (TextView) findViewById(R.id.top_calories);
     }
-    private void initMap(){
-        mapView = (MapView)findViewById(R.id.bmapView);
+
+    private void initMap() {
+        mapView = (MapView) findViewById(R.id.bmapView);
         mBaiduMap = mapView.getMap();
-        mapUtil=MapUtil.getInstance();
+        mapUtil = MapUtil.getInstance();
         mapUtil.init(mapView);
     }
-    private void getData(){
+
+    private void getData() {
         int id = getIntent().getIntExtra("id", 0);
-        if (!UserManager.getInstance().getUser().getPhone().equals("")){
+        if (!UserManager.getInstance().getUser().getPhone().equals("")) {
             RetrofitUtils.getInstance()
-                    .getRecordService()
-                    .getRecord(id)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Mogemap_run_record>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-                            statrProgressDialog();
-                        }
+                .getRecordService()
+                .getRecord(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Mogemap_run_record>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        statrProgressDialog();
+                    }
 
-                        @Override
-                        public void onNext(Mogemap_run_record mogemap_run_record) {
-                            record = mogemap_run_record;
-                        }
+                    @Override
+                    public void onNext(Mogemap_run_record mogemap_run_record) {
+                        record = mogemap_run_record;
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            cancel();
-                            Toast.makeText(RunRecordActivity.this, "请求错误", Toast.LENGTH_SHORT).show();
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                        cancelDialog();
+                        Toast.makeText(RunRecordActivity.this, "请求错误", Toast.LENGTH_SHORT).show();
+                    }
 
-                        @Override
-                        public void onComplete() {
-                            cancel();
-                            updateUI();
-                            drawMap();
-                        }
-                    });
-        }else {
+                    @Override
+                    public void onComplete() {
+                        cancelDialog();
+                        updateUI();
+                        drawMap();
+                    }
+                });
+        } else {
             ToastUtil.tip(this, "请先授权登录", 1);
         }
 
     }
-    private void updateUI(){
+
+    private void updateUI() {
         DecimalFormat df = new DecimalFormat("######0.00");
-        double km = record.getDistance()/1000;
+        double km = record.getDistance() / 1000;
         topDistance.setText(df.format(km));
-        int mSecond = record.getRuntime()%60;
-        int myMinute = record.getRuntime()/60;
+        int mSecond = record.getRuntime() % 60;
+        int myMinute = record.getRuntime() / 60;
         int mMinute, mHour;
-        if(myMinute >= 60){
-            mMinute = myMinute%60;
-            mHour = myMinute/60;
-        }else {
+        if (myMinute >= 60) {
+            mMinute = myMinute % 60;
+            mHour = myMinute / 60;
+        } else {
             mMinute = myMinute;
             mHour = 0;
         }
@@ -189,25 +189,26 @@ public class RunRecordActivity extends BaseActivty {
         minute.setText(time[1]);
         second.setText(time[2]);
 
-        topCalories.setText(record.getCalories()+"");
-        if(record.getDistance() == 0){
+        topCalories.setText(record.getCalories() + "");
+        if (record.getDistance() == 0) {
             topSpeed.setText("----");
-        }else {
-            double m = (double)record.getRuntime()/60/record.getDistance()/1000;
+        } else {
+            double m = (double) record.getRuntime() / 60 / record.getDistance() / 1000;
             String myPace = OtherUtil.getPace(m);
             topSpeed.setText(myPace);
         }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年M月d日 HH:mm");
-        date.setText(simpleDateFormat.format(record.getDate())+" "+OtherUtil.getRunType(Integer.parseInt(record.getRuntype())));
+        date.setText(simpleDateFormat.format(record.getDate()) + " " + OtherUtil.getRunType(Integer.parseInt(record.getRuntype())));
     }
-    private void drawMap(){
-        if(record != null){
+
+    private void drawMap() {
+        if (record != null) {
             log(record.getJson());
             List<MyLatLng> mlist = JSON.parseArray(record.getJson(), MyLatLng.class);
             List<LatLng> list = getLatLngs(mlist);
 
-            LatLng center = new LatLng((list.get(0).latitude+list.get(list.size()-1).latitude)/2,(list.get(0).longitude+list.get(list.size()-1).longitude)/2);
+            LatLng center = new LatLng((list.get(0).latitude + list.get(list.size() - 1).latitude) / 2, (list.get(0).longitude + list.get(list.size() - 1).longitude) / 2);
             MapStatus.Builder builder = new MapStatus.Builder();
             builder.target(center).zoom(18.0f);
             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
@@ -215,37 +216,41 @@ public class RunRecordActivity extends BaseActivty {
 
         }
     }
-    private String[] getTime(int time, int minute, int second){
+
+    private String[] getTime(int time, int minute, int second) {
         String[] strs = new String[]{"", "", ""};
-        if(second < 10){
-            strs[2] = "0"+second;
-        }else {
-            strs[2] = ""+second;
+        if (second < 10) {
+            strs[2] = "0" + second;
+        } else {
+            strs[2] = "" + second;
         }
-        if(minute < 10){
-            strs[1] = "0"+minute;
-        }else {
-            strs[1] = ""+minute;
+        if (minute < 10) {
+            strs[1] = "0" + minute;
+        } else {
+            strs[1] = "" + minute;
         }
-        if(time < 10){
-            strs[0] = "0"+time;
-        }else {
-            strs[0] = ""+time;
+        if (time < 10) {
+            strs[0] = "0" + time;
+        } else {
+            strs[0] = "" + time;
         }
         return strs;
     }
-    private void log(String s){
+
+    private void log(String s) {
         Log.d(TAG, s);
     }
-    private List<LatLng> getLatLngs(List<MyLatLng> list){
+
+    private List<LatLng> getLatLngs(List<MyLatLng> list) {
         List<LatLng> latLngs = new LinkedList<>();
-        for (MyLatLng l: list){
+        for (MyLatLng l : list) {
             LatLng latLng = new LatLng(l.latitude, l.longitude);
             latLngs.add(latLng);
         }
         return latLngs;
     }
-    private void getMapBitmap(){
+
+    private void getMapBitmap() {
 //        textBitmap = convertViewToBitmap(personalData);
 //        mBaiduMap.snapshot(new BaiduMap.SnapshotReadyCallback() {
 //            @Override
@@ -256,6 +261,7 @@ public class RunRecordActivity extends BaseActivty {
 //        });
         handler.sendEmptyMessage(0x04);
     }
+
     private void showShare() {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
@@ -263,22 +269,23 @@ public class RunRecordActivity extends BaseActivty {
         // title标题，微信、QQ和QQ空间等平台使用
         oks.setTitle("我的运动轨迹");
         // titleUrl QQ和QQ空间跳转链接
-        oks.setTitleUrl(HttpUtil.DISPLAY_RECORD+record.getId());
+        oks.setTitleUrl(HttpUtil.DISPLAY_RECORD + record.getId());
         // text是分享文本，所有平台都需要这个字段
 
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         //oks.setImagePath(FileUtil.FILE_PATH+"/"+screenName);//确保SDcard下面存在此张图片
         // url在微信、微博，Facebook等平台中使用
-        oks.setUrl(HttpUtil.DISPLAY_RECORD+record.getId());
+        oks.setUrl(HttpUtil.DISPLAY_RECORD + record.getId());
         // comment是我对这条分享的评论，仅在人人网使用
         //oks.setComment("我是测试评论文本");
         //oks.setImageData(mapBitmap);
         // 启动分享GUI
         DecimalFormat df = new DecimalFormat("######0.00");
-        double km = record.getDistance()/1000;
-        oks.setText("我跑了"+df.format(km)+"公里,消耗了"+record.getCalories()+"千卡热量");
+        double km = record.getDistance() / 1000;
+        oks.setText("我跑了" + df.format(km) + "公里,消耗了" + record.getCalories() + "千卡热量");
         oks.show(this);
     }
+
     private Bitmap convertViewToBitmap(View view) {
         final boolean drawingCacheEnabled = true;
         view.setDrawingCacheEnabled(drawingCacheEnabled);
@@ -294,12 +301,13 @@ public class RunRecordActivity extends BaseActivty {
         }
         return bitmap;
     }
+
     public void saveImageToGallery(Context context, Bitmap bmp) {
         // 首先保存图片
         FileUtil.judePackageDirExists();
         File dir = new File(FileUtil.FILE_PATH);
 //+System.currentTimeMillis()
-        screenName = "map_track"+ ".jpg";
+        screenName = "map_track" + ".jpg";
         File file = new File(dir, screenName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
@@ -316,7 +324,7 @@ public class RunRecordActivity extends BaseActivty {
         // 其次把文件插入到系统图库
         try {
             MediaStore.Images.Media.insertImage(context.getContentResolver(),
-                    file.getAbsolutePath(), screenName, null);
+                file.getAbsolutePath(), screenName, null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

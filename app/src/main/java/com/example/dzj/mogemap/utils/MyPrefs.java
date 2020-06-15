@@ -15,36 +15,43 @@ public class MyPrefs {
     public static final String QQ_EXPIRES_IN = "expires_in";
     public static final String SINA_EXPIRES_IN = "expires_in";
     public static final String SINA_UID = "uid";
-    public static final String SINA_ACCESS_TOKEN = "access_token";;
+    public static final String SINA_ACCESS_TOKEN = "access_token";
+    ;
     private static MyPrefs myPrefs;
     private SharedPreferences sp, sps;
-    private MyPrefs(){}
-    public static MyPrefs getInstance(){
-        if(myPrefs == null){
+
+    private MyPrefs() {
+    }
+
+    public static MyPrefs getInstance() {
+        if (myPrefs == null) {
             myPrefs = new MyPrefs();
         }
         return myPrefs;
     }
-    public MyPrefs initSharedPreferences(Context context){
+
+    public MyPrefs initSharedPreferences(Context context) {
         //获取SharedPreferences对象
-        if(sp == null){
+        if (sp == null) {
             sp = context.getSharedPreferences(PREF_NAME,
-                    Context.MODE_PRIVATE);
+                Context.MODE_PRIVATE);
         }
-        if(sps == null){
+        if (sps == null) {
             sps = context.getSharedPreferences(SINA_NAME,
-                    Context.MODE_PRIVATE);
+                Context.MODE_PRIVATE);
         }
         return myPrefs;
     }
+
     /**
      * 向SharedPreferences中写入String类型的数据
+     *
      * @param key
      * @param value
      */
-    public void writeString(String key, String value, int num){
+    public void writeString(String key, String value, int num) {
         SharedPreferences.Editor editor;
-        switch (num){
+        switch (num) {
             case 0:
                 //获取编辑器对象
                 editor = sp.edit();
@@ -65,11 +72,12 @@ public class MyPrefs {
 
     /**
      * 根据key读取SharedPreferences中的String类型的数据
+     *
      * @param key
      * @return
      */
-    public String readString(String key, int num){
-        switch (num){
+    public String readString(String key, int num) {
+        switch (num) {
             case 0:
                 return sp.getString(key, "");
             case 1:
@@ -77,11 +85,12 @@ public class MyPrefs {
         }
         return sp.getString(key, "");
     }
-    public void onDestory(){
-        if (sp != null){
+
+    public void onDestory() {
+        if (sp != null) {
             sp = null;
         }
-        if(sps != null){
+        if (sps != null) {
             sps = null;
         }
     }

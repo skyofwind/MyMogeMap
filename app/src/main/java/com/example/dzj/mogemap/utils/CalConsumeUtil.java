@@ -18,13 +18,14 @@ public class CalConsumeUtil {
     public final static int DEFAULT_WEIGHT = 60;//默认体重60kg
 
     //运动距离卡路里消耗公式 体重（kg）* 距离（km）* 运动系数（k）
-    public static int getCalConsume(double kg, double km, double k){
-        double cal = kg*km*k;
-        Log.i("CalConsumeUtil","kg="+kg+" km="+km+" k="+k+" cal="+cal);
-        return (int)cal;
+    public static int getCalConsume(double kg, double km, double k) {
+        double cal = kg * km * k;
+        Log.i("CalConsumeUtil", "kg=" + kg + " km=" + km + " k=" + k + " cal=" + cal);
+        return (int) cal;
     }
-    public static int getCalByType(int positon, double kg, double km){
-        switch (positon){
+
+    public static int getCalByType(int positon, double kg, double km) {
+        switch (positon) {
             case 0:
                 return getCalConsume(kg, km, RUN);
             case 1:

@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class StepDetection implements SensorEventListener {
 
-    private static final String TAG="StepDetection";
+    private static final String TAG = "StepDetection";
 
     public static final String COUNT_BROADCASTRECEIVER = "countBroadcastReceiver";
     /**
@@ -35,7 +35,8 @@ public class StepDetection implements SensorEventListener {
     /**
      * 当前的时间
      */
-    private long timeOfNow = 0;;
+    private long timeOfNow = 0;
+    ;
     /**
      * 波峰值
      */
@@ -68,7 +69,7 @@ public class StepDetection implements SensorEventListener {
      * 上一点的持续上升的次数，为了记录波峰的上升次数
      */
     private int continueUpFormerCount = 0;
-    public boolean is_Acc=false;
+    public boolean is_Acc = false;
     //  private int ACC=30;//手机感应器波动范围,30以内判定手机处于静止
     private int tempCount = 0;
     private final int valueNum = 4;
@@ -89,15 +90,17 @@ public class StepDetection implements SensorEventListener {
 
     private Context context;
 
-    public StepDetection(Context context){
-        this.context=context;
+    public StepDetection(Context context) {
+        this.context = context;
     }
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        IsRun=true;
-        if(sensorEvent.sensor.getType()== Sensor.TYPE_ACCELEROMETER){
+        IsRun = true;
+        //log("onSensorChanged " + " IsRun = true");
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             gravityNew = (float) Math.sqrt(sensorEvent.values[0] * sensorEvent.values[0]
-                    + sensorEvent.values[1] * sensorEvent.values[1] + sensorEvent.values[2] * sensorEvent.values[2]);
+                + sensorEvent.values[1] * sensorEvent.values[1] + sensorEvent.values[2] * sensorEvent.values[2]);
             DetectorNewStep(gravityNew);
         }
     }
@@ -116,32 +119,32 @@ public class StepDetection implements SensorEventListener {
                 //log("isDetectorPeak: "+"true");
                 timeOfLastPeak = timeOfThisPeak;
                 timeOfNow = System.currentTimeMillis();
-                if ((timeOfNow - timeOfLastPeak) >= 250&& (peakOfWave - valleyOfWave >= ThreadValue)) {
+                if ((timeOfNow - timeOfLastPeak) >= 250 && (peakOfWave - valleyOfWave >= ThreadValue)) {
                     timeOfThisPeak = timeOfNow;
                     //两步之间间隔大于4秒则不算
-                    if((timeOfNow-timeOfLastPeak)>4*1000)
-                        CountValue=0;
+                    if ((timeOfNow - timeOfLastPeak) > 4 * 1000)
+                        CountValue = 0;
                     else
                         CountValue++;
                     //只有手机连续摇晃4下或者以上才判定为走路
-                    if(CountValue>=4) {
+                    if (CountValue >= 4) {
                         is_Acc = true;
                         count++;
                         Intent intent = new Intent();
                         intent.setAction(COUNT_BROADCASTRECEIVER);
-                        intent.putExtra(COUNT_BROADCASTRECEIVER,count);
+                        intent.putExtra(COUNT_BROADCASTRECEIVER, count);
                         this.context.sendBroadcast(intent);
-                        //Log.i(TAG,"只有手机连续摇晃4下或者以上才判定为走路");
+                        Log.i(TAG,"只有手机连续摇晃4下或者以上才判定为走路 is_Acc = true");
                     }
                     //                      mStepListeners.onStep();
-                }else {
+                } else {
                     is_Acc = false;
                 }
-                if (timeOfNow - timeOfLastPeak >= 250&& (peakOfWave - valleyOfWave >= initialValue)) {
+                if (timeOfNow - timeOfLastPeak >= 250 && (peakOfWave - valleyOfWave >= initialValue)) {
                     timeOfThisPeak = timeOfNow;
                     ThreadValue = Peak_Valley_Thread(peakOfWave - valleyOfWave);
                 }
-            }else {
+            } else {
                 //is_Acc = false;
                 //log("isDetectorPeak: "+"false");
             }
@@ -171,7 +174,7 @@ public class StepDetection implements SensorEventListener {
             isDirectionUp = false;
         }
 
-        if (!isDirectionUp && lastStatus&& (continueUpFormerCount >= 4 || oldValue >= 20&&oldValue<=40)) {
+        if (!isDirectionUp && lastStatus && (continueUpFormerCount >= 4 || oldValue >= 20 && oldValue <= 40)) {
             peakOfWave = oldValue;
             return true;
         } else if (!lastStatus && isDirectionUp) {
@@ -228,8 +231,9 @@ public class StepDetection implements SensorEventListener {
         }
         return ave;
     }
-    private void log(String s){
-        Log.i(TAG,s);
+
+    private void log(String s) {
+        Log.i(TAG, s);
     }
 
 }

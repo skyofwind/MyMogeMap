@@ -5,7 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Build;
+
 import androidx.annotation.Nullable;
+
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +47,7 @@ public class GpsStrengthView extends View {
         super(context, attrs, defStyleAttr);
         this.context = context;
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
@@ -54,7 +57,7 @@ public class GpsStrengthView extends View {
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
         //setMeasuredDimension(widthSpecMode, heightSpecMode);
-        log("conml "+widthSpecSize+" onMeasure "+heightSpecSize);
+        log("conml " + widthSpecSize + " onMeasure " + heightSpecSize);
         int WIDTH_DEFAULT = 45;
         int HEIGHT_DEFAULT = 54;
         if (widthMeasureSpec == MeasureSpec.AT_MOST && heightSpecSize == MeasureSpec.AT_MOST) {
@@ -65,23 +68,25 @@ public class GpsStrengthView extends View {
             setMeasuredDimension(widthSpecSize, HEIGHT_DEFAULT);
         }
     }
+
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh){
-        log("conml"+"onSizeChanged");
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        log("conml" + "onSizeChanged");
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = w;
         mHeight = h;
         columnWidth = 8;
         columHeight = 10;
         columnInterval = 3;
-        heights = columHeight*3+columnWidth;
-        log("mWidth="+mWidth+" herht="+mHeight);
+        heights = columHeight * 3 + columnWidth;
+        log("mWidth=" + mWidth + " herht=" + mHeight);
         //widthView =
     }
+
     @Override
-    protected void onDraw(Canvas canvas){
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        log("conml"+"onDraw");
+        log("conml" + "onDraw");
         final int paddingLeft = getPaddingLeft();
         final int paddingRight = getPaddingRight();
         final int paddingTop = getPaddingTop();
@@ -90,29 +95,30 @@ public class GpsStrengthView extends View {
         drawAll(canvas, paddingLeft, paddingRight, paddingTop, paddingBottom, strength);
 
     }
-    private void drawAll(Canvas canvas, int pl, int pr, int pt, int pb, int strength){
-        for(int i=0;i<3;i++){
-            if(i < strength){
-                drawModule(canvas, (int)(pl+columnInterval*i), pr, pt, pb, i);
-            }else {
-                drawNullColumn(canvas, (int)(pl+columnInterval*i), pr, pt, pb, i);
+
+    private void drawAll(Canvas canvas, int pl, int pr, int pt, int pb, int strength) {
+        for (int i = 0; i < 3; i++) {
+            if (i < strength) {
+                drawModule(canvas, (int) (pl + columnInterval * i), pr, pt, pb, i);
+            } else {
+                drawNullColumn(canvas, (int) (pl + columnInterval * i), pr, pt, pb, i);
             }
         }
     }
 
-    private void drawModule(Canvas canvas, int pl, int pr, int pt, int pb, int position){
+    private void drawModule(Canvas canvas, int pl, int pr, int pt, int pb, int position) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
         //paint.setStrokeWidth(1f);
         paint.setColor(getColor(strength));
-        float offsetLeft = pl+(columnWidth+columnInterval)*position;
-        float height = columHeight*(position+1);
-        RectF rectF = new RectF((float) (offsetLeft), (float)(pt+heights-height-columnWidth/2), (float)(offsetLeft+columnWidth), (float) (pt+heights-height+columnWidth/2));
+        float offsetLeft = pl + (columnWidth + columnInterval) * position;
+        float height = columHeight * (position + 1);
+        RectF rectF = new RectF((float) (offsetLeft), (float) (pt + heights - height - columnWidth / 2), (float) (offsetLeft + columnWidth), (float) (pt + heights - height + columnWidth / 2));
         canvas.drawArc(rectF, 180, 180, false, paint);
-        rectF = new RectF((float) (offsetLeft), (float)(pt+heights-height), (float)(offsetLeft+columnWidth), (float) (pt+heights));
+        rectF = new RectF((float) (offsetLeft), (float) (pt + heights - height), (float) (offsetLeft + columnWidth), (float) (pt + heights));
         canvas.drawRect(rectF, paint);
-        rectF = new RectF((float) (offsetLeft), (float) (pt+heights-columnWidth/2), (float)(offsetLeft+columnWidth), (float) (pt+columnWidth/2+heights+pb));
+        rectF = new RectF((float) (offsetLeft), (float) (pt + heights - columnWidth / 2), (float) (offsetLeft + columnWidth), (float) (pt + columnWidth / 2 + heights + pb));
         canvas.drawArc(rectF, 180, -180, false, paint);
 
         //log("p="+position+" offset="+offsetLeft+" height="+height);
@@ -120,31 +126,35 @@ public class GpsStrengthView extends View {
         //log("two="+(pt+heights-height)+" "+(pt+heights-height));
         //log("three="+(pt+heights-height-columnWidth/2)+" "+(pt+heights-height+columnWidth/2));
     }
-    private void drawNullColumn(Canvas canvas, int pl, int pr, int pt, int pb, int position){
+
+    private void drawNullColumn(Canvas canvas, int pl, int pr, int pt, int pb, int position) {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
         //paint.setStrokeWidth(1f);
         paint.setColor(getMyColor(R.color.text_gray));
-        float offsetLeft = pl+(columnWidth+columnInterval)*position;
-        float height = columHeight*(position+1);
-        RectF rectF = new RectF((float) (offsetLeft), (float)(pt+heights-height-columnWidth/2), (float)(offsetLeft+columnWidth), (float) (pt+heights-height+columnWidth/2));
+        float offsetLeft = pl + (columnWidth + columnInterval) * position;
+        float height = columHeight * (position + 1);
+        RectF rectF = new RectF((float) (offsetLeft), (float) (pt + heights - height - columnWidth / 2), (float) (offsetLeft + columnWidth), (float) (pt + heights - height + columnWidth / 2));
         canvas.drawArc(rectF, 180, 180, false, paint);
-        rectF = new RectF((float) (offsetLeft), (float)(pt+heights-height), (float)(offsetLeft+columnWidth), (float) (pt+heights));
+        rectF = new RectF((float) (offsetLeft), (float) (pt + heights - height), (float) (offsetLeft + columnWidth), (float) (pt + heights));
         canvas.drawRect(rectF, paint);
-        rectF = new RectF((float) (offsetLeft), (float) (pt+heights-columnWidth/2), (float)(offsetLeft+columnWidth), (float) (pt+columnWidth/2+heights+pb));
+        rectF = new RectF((float) (offsetLeft), (float) (pt + heights - columnWidth / 2), (float) (offsetLeft + columnWidth), (float) (pt + columnWidth / 2 + heights + pb));
         canvas.drawArc(rectF, 180, -180, false, paint);
     }
-    private float getOffset(float width){
-        float offset = (width < columnInterval)?(columnInterval-width)/2:0;
+
+    private float getOffset(float width) {
+        float offset = (width < columnInterval) ? (columnInterval - width) / 2 : 0;
         return offset;
     }
-    private void log(String str){
-        Log.i(TAG,str);
+
+    private void log(String str) {
+        Log.i(TAG, str);
     }
-    private int getColor(int strength){
+
+    private int getColor(int strength) {
         int id = -1;
-        switch (strength){
+        switch (strength) {
             case 1:
                 id = getMyColor(R.color.red);
                 break;
@@ -157,14 +167,16 @@ public class GpsStrengthView extends View {
         }
         return id;
     }
-    public void setStrength(int strength){
+
+    public void setStrength(int strength) {
         this.strength = strength;
         invalidate();
     }
-    private int getMyColor(int id){
-        if(Build.VERSION.SDK_INT >= 23){
+
+    private int getMyColor(int id) {
+        if (Build.VERSION.SDK_INT >= 23) {
             return context.getColor(id);
-        }else {
+        } else {
             return context.getResources().getColor(id);
         }
     }

@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import static com.example.dzj.mogemap.weather.main.DataDeal.DB_PATH;
 
 
@@ -24,15 +25,18 @@ public class DBmanager {
     public static final String DB_NAME = "city.db"; //保存的数据库文件名
     private SQLiteDatabase database;
     private Context context;
+
     public DBmanager(Context context) {
         this.context = context;
     }
+
     public void openDatabase() {
         this.database = this.openDatabase(DB_PATH + "/" + DB_NAME);
     }
+
     private SQLiteDatabase openDatabase(String dbfile) {
-        try{
-            if(!(new File(dbfile).exists())){
+        try {
+            if (!(new File(dbfile).exists())) {
                 InputStream is = this.context.getResources().openRawResource(R.raw.city); //欲导入的数据库
                 FileOutputStream fos = new FileOutputStream(dbfile);
                 byte[] buffer = new byte[BUFFER_SIZE];
@@ -43,20 +47,21 @@ public class DBmanager {
                 fos.close();
                 is.close();
             }
-            SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbfile,null);
+            SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
             Log.i("Database", "创建成功 ");
             return db;
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             Log.i("Database", "File not found ");
             e.printStackTrace();
-        }catch (IOException e1){
+        } catch (IOException e1) {
             Log.i("Database", "IO exception");
             e1.printStackTrace();
         }
         return null;
     }
-    public Cursor Query(){
-        Cursor cursor=this.database.query("t_district",null,null,null,null,null,null);
+
+    public Cursor Query() {
+        Cursor cursor = this.database.query("t_district", null, null, null, null, null, null);
         return cursor;
     }
 
